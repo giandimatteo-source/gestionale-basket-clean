@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build",
+  "buildCommand": "npm run build:frontend",
   "outputDirectory": "frontend/dist",
   "routes": [
     { "src": "/api/(.*)", "status": 404 },
