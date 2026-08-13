@@ -121,7 +121,13 @@ app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'Route not found' });
   }
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  const indexPath = path.join(__dirname, '../public/index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      res.status(404).json({ error: 'Frontend not found' });
+    }
+  });
 });
 
 // Global error handler
