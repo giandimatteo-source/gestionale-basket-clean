@@ -77,9 +77,6 @@ app.use(passport.session());
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Serve frontend (React SPA)
-app.use(express.static(path.join(__dirname, '../public')));
-
 // ============= ROUTES =============
 
 // Health check
@@ -113,6 +110,9 @@ app.use('/api/scouting-sections', verifyToken, scoutingSectionsRoutes);
 
 // Shooting Stats routes (require authentication)
 app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
+
+// Serve frontend (React SPA) - AFTER API routes to avoid interference
+app.use(express.static(path.join(__dirname, '../public')));
 
 // ============= ERROR HANDLERS =============
 
