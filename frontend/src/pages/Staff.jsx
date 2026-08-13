@@ -8,6 +8,7 @@ import {
   importStaffFromExcel,
   exportStaffToExcel,
 } from '../services/staffService';
+import { useUserRole } from '../hooks/useUserRole';
 
 export default function Staff() {
   const [staff, setStaff] = useState([]);
@@ -20,6 +21,9 @@ export default function Staff() {
   const [editingId, setEditingId] = useState(null);
   const [importLoading, setImportLoading] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
+
+  // Role-based access control
+  const { isEditor } = useUserRole();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -201,14 +205,16 @@ export default function Staff() {
           </div>
         </div>
         <div className="flex gap-3">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            style={{ background: '#00D9FF', color: '#000', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: 'none' }}
-            onMouseOver={(e) => e.target.style.boxShadow = '0 0 20px rgba(0, 217, 255, 0.5)'}
-            onMouseOut={(e) => e.target.style.boxShadow = 'none'}
-          >
-            <Plus size={20} /> Add
-          </button>
+          {isEditor && (
+            <button
+              onClick={() => setIsModalOpen(true)}
+              style={{ background: '#00D9FF', color: '#000', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: 'none' }}
+              onMouseOver={(e) => e.target.style.boxShadow = '0 0 20px rgba(0, 217, 255, 0.5)'}
+              onMouseOut={(e) => e.target.style.boxShadow = 'none'}
+            >
+              <Plus size={20} /> Add
+            </button>
+          )}
           <button
             onClick={handleExportExcel}
             style={{ background: 'rgba(127, 255, 0, 0.1)', color: '#7FFF00', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: '1px solid rgba(127, 255, 0, 0.3)' }}
@@ -306,20 +312,22 @@ export default function Staff() {
                 )}
 
                 {/* Actions */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                  <button
-                    onClick={() => handleEdit(member)}
-                    style={{ background: 'rgba(0, 217, 255, 0.1)', color: '#00D9FF', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(0, 217, 255, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
-                  >
-                    <Edit size={16} /> Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(member.id)}
-                    style={{ background: 'rgba(255, 56, 96, 0.1)', color: '#FF5860', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(255, 56, 96, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
-                  >
-                    <Trash2 size={16} /> Delete
-                  </button>
-                </div>
+                {isEditor && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                    <button
+                      onClick={() => handleEdit(member)}
+                      style={{ background: 'rgba(0, 217, 255, 0.1)', color: '#00D9FF', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(0, 217, 255, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
+                    >
+                      <Edit size={16} /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(member.id)}
+                      style={{ background: 'rgba(255, 56, 96, 0.1)', color: '#FF5860', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(255, 56, 96, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
+                    >
+                      <Trash2 size={16} /> Delete
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Edit, Trash2, Mail, Phone, Upload, Download, FileUp, X, ExternalLink, BarChart3, Grid3x3, List } from 'lucide-react';
+import { useUserRole } from '../hooks/useUserRole';
 import {
   getRosterList,
   createRoster,
@@ -10,6 +11,7 @@ import {
 
 export default function Roster() {
   const navigate = useNavigate();
+  const { isEditor } = useUserRole();
   const [roster, setRoster] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,8 +36,6 @@ export default function Roster() {
   });
 
   const positions = ['PG', 'SG', 'SF', 'PF', 'C'];
-  const userRole = JSON.parse(localStorage.getItem('user') || '{}').role;
-  const canEdit = ['ADMIN', 'EDITOR'].includes(userRole);
 
   // Load roster
   useEffect(() => {
@@ -151,7 +151,7 @@ export default function Roster() {
       {/* Actions */}
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          {canEdit && (
+          {isEditor && (
             <button
               onClick={() => setIsModalOpen(true)}
               style={{ background: 'linear-gradient(135deg, #00D9FF, #00FFFF)', color: '#000', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: '600', border: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
@@ -272,14 +272,14 @@ export default function Roster() {
                 )}
 
                 {/* Actions */}
-                <div style={{ display: 'grid', gridTemplateColumns: canEdit ? '1fr 1fr' : '1fr', gap: '0.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isEditor ? '1fr 1fr' : '1fr', gap: '0.5rem' }}>
                   <button
                     onClick={() => navigate(`/roster/${player.id}`)}
                     style={{ background: 'rgba(127, 255, 0, 0.1)', color: '#7FFF00', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(127, 255, 0, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
                   >
                     <BarChart3 size={16} /> Stats
                   </button>
-                  {canEdit && (
+                  {isEditor && (
                     <>
                       <button
                         onClick={() => handleEdit(player)}
@@ -341,7 +341,7 @@ export default function Roster() {
                       >
                         📊
                       </button>
-                      {canEdit && (
+                      {isEditor && (
                         <>
                           <button
                             onClick={() => handleEdit(player)}
