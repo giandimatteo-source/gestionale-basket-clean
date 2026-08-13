@@ -10,7 +10,10 @@ COPY backend/package*.json ./backend/
 RUN npm install
 RUN cd backend && npm install
 
-# Build frontend
+# Copy backend source code
+COPY backend ./backend
+
+# Copy and build frontend
 COPY frontend ./frontend
 RUN cd frontend && npm install && npm run build
 
