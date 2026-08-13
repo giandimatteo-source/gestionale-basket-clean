@@ -242,7 +242,7 @@ export default function Roster() {
               {/* Photo */}
               <div style={{ height: '200px', background: 'linear-gradient(135deg, #0f172a, #0A0E27)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontSize: '4rem' }}>
                 {player.photo ? (
-                  <img src={`http://localhost:5000${player.photo}`} alt={player.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={`https://gestionale-basket-clean.onrender.com${player.photo}`} alt={player.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
                   '🏀'
                 )}
