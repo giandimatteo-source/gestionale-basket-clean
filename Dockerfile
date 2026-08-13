@@ -13,6 +13,9 @@ RUN cd backend && npm install
 # Copy backend source code
 COPY backend ./backend
 
+# Generate Prisma client
+RUN cd backend && npx prisma generate
+
 # Copy and build frontend
 COPY frontend ./frontend
 RUN cd frontend && npm install && npm run build
