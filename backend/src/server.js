@@ -111,23 +111,11 @@ app.use('/api/scouting-sections', verifyToken, scoutingSectionsRoutes);
 // Shooting Stats routes (require authentication)
 app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
 
-// Serve frontend (React SPA) - AFTER API routes to avoid interference
-app.use(express.static(path.join(__dirname, '../public')));
-
 // ============= ERROR HANDLERS =============
 
-// SPA fallback - serve index.html for all non-API routes
+// 404 handler
 app.use((req, res) => {
-  if (req.path.startsWith('/api/')) {
-    return res.status(404).json({ error: 'Route not found' });
-  }
-  const indexPath = path.join(__dirname, '../public/index.html');
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      console.error('Error serving index.html:', err);
-      res.status(404).json({ error: 'Frontend not found' });
-    }
-  });
+  res.status(404).json({ error: 'Route not found' });
 });
 
 // Global error handler
