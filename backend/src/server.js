@@ -111,9 +111,19 @@ app.use('/api/scouting-sections', verifyToken, scoutingSectionsRoutes);
 // Shooting Stats routes (require authentication)
 app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
 
+// ============= FRONTEND & SPA ROUTING =============
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../public')));
+
+// SPA fallback - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
 // ============= ERROR HANDLERS =============
 
-// 404 handler
+// Global 404 for API routes (shouldn't reach here due to SPA fallback)
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
