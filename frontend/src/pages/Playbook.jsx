@@ -201,7 +201,7 @@ export default function PlaybookPage() {
               )}
 
               <div className="playbook-file">
-                <a href={`https://gestionale-basket-clean.onrender.com${playbook.fileUrl}`} target="_blank" rel="noopener noreferrer" className="file-link">
+                <a href={`${playbook.fileUrl}`} target="_blank" rel="noopener noreferrer" className="file-link">
                   {playbook.fileType === 'Video' ? (
                     <>
                       <Video size={18} /> Watch Video

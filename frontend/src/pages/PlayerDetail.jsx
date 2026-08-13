@@ -153,7 +153,7 @@ export default function PlayerDetail() {
         <div className="hero-content">
           <div className="hero-photo">
             {player.photo ? (
-              <img src={`https://gestionale-basket-clean.onrender.com${player.photo}`} alt={player.name} />
+              <img src={`${player.photo}`} alt={player.name} />
             ) : (
               <div className="photo-placeholder">👩‍🏀</div>
             )}

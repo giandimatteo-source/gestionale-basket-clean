@@ -270,7 +270,7 @@ export default function Staff() {
               {/* Photo */}
               <div style={{ height: '200px', background: 'linear-gradient(135deg, #0f172a, #0A0E27)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', fontSize: '4rem' }}>
                 {member.photo ? (
-                  <img src={`https://gestionale-basket-clean.onrender.com${member.photo}`} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={`${member.photo}`} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
                   '👤'
                 )}

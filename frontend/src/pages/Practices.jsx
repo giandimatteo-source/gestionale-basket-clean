@@ -164,7 +164,7 @@ export default function Practices() {
 
               {session.fileUrl && (
                 <div className="training-video">
-                  <a href={`https://gestionale-basket-clean.onrender.com${session.fileUrl}`} target="_blank" rel="noopener noreferrer" className="video-link">
+                  <a href={`${session.fileUrl}`} target="_blank" rel="noopener noreferrer" className="video-link">
                     <Play size={20} /> Watch Video
                   </a>
                 </div>

@@ -145,7 +145,7 @@ export default function CalendarPage() {
             eventId: selectedEvent?.id,
           };
 
-          const response = await fetch('https://gestionale-basket-clean.onrender.com/api/scouting', {
+          const response = await fetch('/api/scouting', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

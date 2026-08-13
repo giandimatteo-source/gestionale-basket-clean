@@ -38,7 +38,7 @@ export default function ScoutingAdminPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('https://gestionale-basket-clean.onrender.com/api/scouting/' + selectedReportId, {
+      const response = await fetch('/api/scouting/' + selectedReportId, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: formData,
