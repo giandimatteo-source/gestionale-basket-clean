@@ -1,5 +1,5 @@
 // Staff API Service
-const API_URL = 'http://localhost:5000/api/staff';
+const API_URL = '/api/staff';
 
 // Ottenere lista staff
 export const getStaffList = async (page = 1, limit = 10, filters = {}) => {

@@ -145,7 +145,7 @@ export default function CalendarPage() {
             eventId: selectedEvent?.id,
           };
 
-          const response = await fetch('http://localhost:5000/api/scouting', {
+          const response = await fetch('/api/scouting', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

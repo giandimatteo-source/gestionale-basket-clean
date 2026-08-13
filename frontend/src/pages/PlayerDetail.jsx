@@ -76,7 +76,7 @@ export default function PlayerDetail() {
 
   const fetchPlayer = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/roster/${id}`, {
+      const response = await fetch(`/api/roster/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Errore nel caricamento');
@@ -102,7 +102,7 @@ export default function PlayerDetail() {
   const saveStats = async () => {
     setSaving(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/roster/${id}/stats`, {
+      const response = await fetch(`/api/roster/${id}/stats`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

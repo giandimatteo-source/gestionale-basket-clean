@@ -38,7 +38,7 @@ export default function ScoutingAdminPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:5000/api/scouting/' + selectedReportId, {
+      const response = await fetch('/api/scouting/' + selectedReportId, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: formData,
@@ -60,7 +60,7 @@ export default function ScoutingAdminPage() {
   const handleDeleteFile = async (id) => {
     if (window.confirm('Delete this file?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/scouting/${id}/file`, {
+        const response = await fetch(`/api/scouting/${id}/file`, {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });

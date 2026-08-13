@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/playbook';
+const API_URL = '/api/playbook';
 
 const getToken = () => localStorage.getItem('token');
 
