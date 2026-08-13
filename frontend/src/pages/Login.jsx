@@ -18,7 +18,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      const endpoint = isLogin ? 'https://gestionale-basket-clean.onrender.com/api/auth/login' : 'https://gestionale-basket-clean.onrender.com/api/auth/register';
       const body = isLogin
         ? { email, password }
         : { email, password, name };

@@ -1,4 +1,4 @@
-const API_URL = '/api/playbook';
+const API_URL = 'https://gestionale-basket-clean.onrender.com/api/playbook';
 
 const getToken = () => localStorage.getItem('token');
 

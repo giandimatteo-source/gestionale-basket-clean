@@ -1,5 +1,5 @@
 // Staff API Service
-const API_URL = '/api/staff';
+const API_URL = 'https://gestionale-basket-clean.onrender.com/api/staff';
 
 // Ottenere lista staff
 export const getStaffList = async (page = 1, limit = 10, filters = {}) => {

@@ -27,7 +27,7 @@ export default function PracticesShooting() {
   const loadPlayers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/roster?limit=100', {
+      const response = await fetch('https://gestionale-basket-clean.onrender.com/api/roster?limit=100', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       const result = await response.json();
