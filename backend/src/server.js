@@ -77,6 +77,9 @@ app.use(passport.session());
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Serve frontend (React SPA)
+app.use(express.static(path.join(__dirname, '../public')));
+
 // ============= ROUTES =============
 
 // Health check
@@ -113,9 +116,12 @@ app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
 
 // ============= ERROR HANDLERS =============
 
-// 404 handler
+// SPA fallback - serve index.html for all non-API routes
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Route not found' });
+  }
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Global error handler
