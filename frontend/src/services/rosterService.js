@@ -1,5 +1,5 @@
 // Roster API Service
-const API_URL = 'https://gestionale-basket-clean.onrender.com/api/roster';
+const API_URL = '/api/roster';
 
 // Ottenere lista giocatrici
 export const getRosterList = async (page = 1, limit = 10, filters = {}) => {

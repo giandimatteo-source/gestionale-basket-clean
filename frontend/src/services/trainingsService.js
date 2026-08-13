@@ -1,4 +1,4 @@
-const API_URL = 'https://gestionale-basket-clean.onrender.com/api/trainings';
+const API_URL = '/api/trainings';
 
 const getToken = () => localStorage.getItem('token');
 
