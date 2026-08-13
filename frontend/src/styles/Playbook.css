@@ -1,0 +1,460 @@
+.playbook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.playbook-header h1 {
+  font-size: 2rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.btn-add-playbook {
+  background: linear-gradient(135deg, #00D9FF, #00FFFF);
+  color: #000;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.btn-add-playbook:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.playbook-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid rgba(0, 217, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 200ms ease;
+  border-bottom: 2px solid transparent;
+  position: relative;
+  bottom: -1rem;
+}
+
+.tab-btn:hover {
+  color: #f1f5f9;
+}
+
+.tab-btn.active {
+  color: #00D9FF;
+  border-bottom-color: #00D9FF;
+  box-shadow: 0 2px 8px rgba(0, 217, 255, 0.3);
+}
+
+.tag-filter {
+  background: rgba(0, 217, 255, 0.05);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  margin-bottom: 2rem;
+}
+
+.filter-label {
+  color: #cbd5e1;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.tag-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-filter-btn {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  color: #00D9FF;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.tag-filter-btn:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.tag-filter-btn.active {
+  background: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.playbook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.playbook-card {
+  background: rgba(26, 31, 58, 0.7);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: all 200ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.playbook-card:hover {
+  border-color: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.playbook-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.playbook-header-card h3 {
+  margin: 0;
+  color: #f1f5f9;
+  font-size: 1.25rem;
+  flex: 1;
+  word-break: break-word;
+}
+
+.playbook-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  background: transparent;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  color: #00D9FF;
+  padding: 0.5rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms ease;
+}
+
+.action-btn:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.action-btn.delete:hover {
+  background: rgba(255, 56, 96, 0.2);
+  color: #FF5860;
+  border-color: rgba(255, 56, 96, 0.3);
+}
+
+.playbook-description {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.playbook-file {
+  margin-top: 0.5rem;
+}
+
+.file-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, rgba(127, 255, 0, 0.2), rgba(0, 255, 255, 0.2));
+  border: 1px solid rgba(127, 255, 0, 0.3);
+  color: #7FFF00;
+  text-decoration: none;
+  border-radius: 0.35rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 200ms ease;
+}
+
+.file-link:hover {
+  background: linear-gradient(135deg, rgba(127, 255, 0, 0.3), rgba(0, 255, 255, 0.3));
+  box-shadow: 0 0 10px rgba(127, 255, 0, 0.3);
+}
+
+.playbook-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag-badge {
+  display: inline-block;
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 0.35rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.playbook-notes {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 217, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.95), rgba(45, 53, 97, 0.85));
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: all 200ms ease;
+}
+
+.modal-close:hover {
+  color: #00D9FF;
+}
+
+.playbook-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #cbd5e1;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  color: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 200ms ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00D9FF;
+  background: rgba(0, 217, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(127, 255, 0, 0.05);
+  border: 2px dashed rgba(127, 255, 0, 0.3);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.file-upload:hover {
+  border-color: rgba(127, 255, 0, 0.5);
+  background: rgba(127, 255, 0, 0.1);
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-hint {
+  flex: 1;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+
+.tag-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tag-input-group input {
+  flex: 1;
+}
+
+.btn-add-tag {
+  background: rgba(0, 217, 255, 0.2);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: #00D9FF;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 200ms ease;
+}
+
+.btn-add-tag:hover {
+  background: rgba(0, 217, 255, 0.3);
+}
+
+.tag-list-edit {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.tag-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 107, 53, 0.2);
+  color: #FF6B35;
+  padding: 0.5rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.tag-remove {
+  background: transparent;
+  border: none;
+  color: #FF6B35;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: all 200ms ease;
+}
+
+.tag-remove:hover {
+  color: #FF5860;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 200ms ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #7FFF00, #90EE90);
+  color: #000;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.4);
+}
+
+.btn-cancel {
+  background: rgba(0, 217, 255, 0.1);
+  color: #00D9FF;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.btn-cancel:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .playbook-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .playbook-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}

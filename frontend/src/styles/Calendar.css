@@ -1,0 +1,485 @@
+/* ===== CALENDAR PAGE ===== */
+.page-container {
+  padding: 2rem;
+  max-width: 100%;
+  width: 100%;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.calendar-header h1 {
+  font-size: 2rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.calendar-header p {
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* ===== CONTROLS ===== */
+.calendar-controls {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(0, 217, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.view-btn {
+  background: transparent;
+  color: #00D9FF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.view-btn:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.view-btn.active {
+  background: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.btn-add-event {
+  background: linear-gradient(135deg, #00D9FF, #00FFFF);
+  color: #000;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.btn-add-event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+/* ===== CALENDAR CONTAINER ===== */
+.calendar-container {
+  background: rgba(26, 31, 58, 0.7);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  overflow: auto;
+  width: 100%;
+}
+
+.calendar-loading {
+  text-align: center;
+  padding: 3rem;
+  color: #cbd5e1;
+  font-size: 1rem;
+}
+
+/* ===== REACT-BIG-CALENDAR OVERRIDE ===== */
+.rbc-calendar {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  color: #f1f5f9;
+}
+
+.rbc-header {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.2);
+  color: #00D9FF;
+  font-weight: 600;
+  padding: 1rem 0.5rem;
+}
+
+.rbc-today {
+  background: rgba(0, 217, 255, 0.05);
+}
+
+.rbc-off-range-bg {
+  background: rgba(10, 14, 27, 0.5);
+}
+
+.rbc-event {
+  background: rgba(0, 217, 255, 0.3) !important;
+  border-left: 4px solid #00D9FF !important;
+  padding: 0.5rem !important;
+  color: #f1f5f9 !important;
+}
+
+.rbc-event-label {
+  color: #f1f5f9;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.rbc-event-content {
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  font-weight: 500;
+}
+
+.rbc-toolbar {
+  padding: 1rem 0 1.5rem 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rbc-toolbar button {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  color: #00D9FF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  transition: all 200ms ease;
+  font-weight: 600;
+}
+
+.rbc-toolbar button:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.rbc-toolbar button.rbc-active {
+  background: rgba(0, 217, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.rbc-toolbar-label {
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0 1rem;
+}
+
+.rbc-month-view,
+.rbc-week-view,
+.rbc-day-view {
+  background: transparent;
+  border: none;
+}
+
+.rbc-month-view {
+  font-size: 1rem;
+  height: auto;
+  min-height: auto;
+}
+
+.rbc-month-view .rbc-date-cell {
+  padding: 1rem 0.5rem;
+  min-height: 100px;
+}
+
+.rbc-month-view .rbc-event {
+  background: rgba(0, 217, 255, 0.3) !important;
+  border-left: 4px solid #00D9FF !important;
+  padding: 0.4rem !important;
+  color: #f1f5f9 !important;
+  font-size: 0.8rem !important;
+  margin: 0.3rem 0 !important;
+}
+
+.rbc-time-view {
+  border-color: rgba(0, 217, 255, 0.1);
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rbc-time-slot {
+  height: 4rem;
+}
+
+.rbc-timeslot-group {
+  min-height: 4rem;
+}
+
+.rbc-time-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rbc-time-header {
+  border-bottom-color: rgba(0, 217, 255, 0.2);
+}
+
+.rbc-time-slot {
+  color: #cbd5e1;
+}
+
+.rbc-time-content {
+  background: transparent;
+}
+
+.rbc-current-time-indicator {
+  background: #00D9FF;
+  height: 2px;
+}
+
+.rbc-show-more {
+  background: rgba(0, 217, 255, 0.1);
+  color: #00D9FF;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.rbc-show-more:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.rbc-overlay {
+  background: rgba(26, 31, 58, 0.95);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.rbc-overlay-header {
+  color: #00D9FF;
+  border-bottom-color: rgba(0, 217, 255, 0.2);
+  font-weight: 600;
+}
+
+/* ===== LEGEND ===== */
+.calendar-legend {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: rgba(26, 31, 58, 0.7);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #cbd5e1;
+  font-size: 0.875rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.95), rgba(45, 53, 97, 0.85));
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms ease;
+}
+
+.modal-close:hover {
+  color: #00D9FF;
+}
+
+/* ===== FORM ===== */
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #cbd5e1;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  color: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 200ms ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00D9FF;
+  background: rgba(0, 217, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.form-group input[type="checkbox"] + label,
+.form-group label input[type="checkbox"] {
+  display: inline;
+}
+
+/* ===== ACTIONS ===== */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-save,
+.btn-delete,
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 200ms ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #7FFF00, #90EE90);
+  color: #000;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.4);
+}
+
+.btn-delete {
+  background: rgba(255, 56, 96, 0.2);
+  color: #FF5860;
+  border: 1px solid rgba(255, 56, 96, 0.3);
+}
+
+.btn-delete:hover {
+  background: rgba(255, 56, 96, 0.3);
+  box-shadow: 0 0 10px rgba(255, 88, 96, 0.3);
+}
+
+.btn-cancel {
+  background: rgba(0, 217, 255, 0.1);
+  color: #00D9FF;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.btn-cancel:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .calendar-controls {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-legend {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}

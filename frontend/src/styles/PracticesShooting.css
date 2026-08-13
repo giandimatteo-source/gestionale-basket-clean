@@ -1,0 +1,328 @@
+.page-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shooting-header {
+  margin-bottom: 2rem;
+}
+
+.shooting-header h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0;
+  background: linear-gradient(135deg, #00D9FF, #FF6B35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Players Table */
+.players-table-container {
+  overflow-x: auto;
+  background: rgba(26, 31, 58, 0.6);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+}
+
+.players-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.players-table thead {
+  background: rgba(0, 217, 255, 0.15);
+  border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+}
+
+.players-table th {
+  color: #00D9FF;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.players-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 200ms ease;
+}
+
+.players-table tbody tr:hover {
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.players-table td {
+  padding: 1rem 1.5rem;
+  color: #f1f5f9;
+}
+
+.player-cell {
+  display: flex;
+  align-items: center;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.player-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.player-position {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.shot-btn {
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 300ms ease;
+}
+
+.shot-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Player Stats Detail View */
+.player-stats-view {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(40, 50, 100, 0.6));
+  min-height: 100vh;
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+}
+
+.back-btn {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: #00D9FF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 200ms ease;
+  white-space: nowrap;
+}
+
+.back-btn:hover {
+  background: rgba(0, 217, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header-info h1 {
+  font-size: 2rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.header-type {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-position {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+/* Input Row in Table */
+.input-row {
+  background: rgba(127, 255, 0, 0.1);
+  border-top: 2px solid rgba(127, 255, 0, 0.3);
+  border-bottom: 2px solid rgba(127, 255, 0, 0.3);
+}
+
+.input-row td {
+  padding: 0.5rem 0.4rem !important;
+  vertical-align: middle;
+}
+
+.table-input {
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid rgba(127, 255, 0, 0.4);
+  color: #f1f5f9;
+  padding: 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  width: 100%;
+  text-align: center;
+  transition: all 200ms ease;
+}
+
+.table-input:focus {
+  outline: none;
+  border-color: rgba(127, 255, 0, 0.8);
+  background: rgba(127, 255, 0, 0.15);
+  box-shadow: 0 0 6px rgba(127, 255, 0, 0.3);
+}
+
+.add-inline-btn {
+  background: linear-gradient(135deg, #7FFF00, #90EE90);
+  color: #000;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.75rem;
+  transition: all 200ms ease;
+}
+
+.add-inline-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(127, 255, 0, 0.4);
+}
+
+/* Stats Table */
+.stats-table-detail-container {
+  overflow-x: auto;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 0.75rem;
+  background: rgba(26, 31, 58, 0.8);
+}
+
+.stats-table-detail {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.stats-table-detail thead {
+  background: rgba(0, 217, 255, 0.15);
+  border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+}
+
+.stats-table-detail th {
+  color: #00D9FF;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-right: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.stats-table-detail th:last-child {
+  border-right: none;
+}
+
+.stats-table-detail .subheader th {
+  background: rgba(0, 217, 255, 0.08);
+  padding: 0.5rem 0.4rem;
+  font-size: 0.7rem;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.stats-table-detail td {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #f1f5f9;
+  border-right: 1px solid rgba(0, 217, 255, 0.05);
+}
+
+.stats-table-detail td:last-child {
+  border-right: none;
+}
+
+.date-col {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.made-col {
+  font-weight: 600;
+  color: #7FFF00;
+}
+
+.attempted-col {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.notes-col {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  min-width: 100px;
+}
+
+.stats-table-detail tbody tr:hover {
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.totals-row {
+  background: rgba(0, 217, 255, 0.15);
+  border-top: 2px solid rgba(0, 217, 255, 0.3);
+  border-bottom: 2px solid rgba(0, 217, 255, 0.3);
+  font-weight: 700;
+}
+
+.totals-row td {
+  color: #f1f5f9;
+  padding: 1rem 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .zones-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-table-detail {
+    font-size: 0.7rem;
+  }
+
+  .stats-table-detail th,
+  .stats-table-detail td {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .stats-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 1.5rem;
+  }
+}

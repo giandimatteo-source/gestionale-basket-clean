@@ -1,0 +1,98 @@
+.shooting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.player-info h1 {
+  font-size: 2rem;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.btn-add-stat {
+  background: linear-gradient(135deg, #7FFF00, #90EE90);
+  color: #000;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.btn-add-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.4);
+}
+
+.shooting-form {
+  background: rgba(26, 31, 58, 0.7);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 200ms ease;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #7FFF00, #90EE90);
+  color: #000;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.4);
+}
+
+.btn-cancel {
+  background: rgba(0, 217, 255, 0.1);
+  color: #00D9FF;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.btn-cancel:hover {
+  background: rgba(0, 217, 255, 0.2);
+}
+
+.shooting-chart {
+  background: rgba(26, 31, 58, 0.7);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.shooting-chart h3 {
+  color: #f1f5f9;
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+}
+
+@media (max-width: 768px) {
+  .shooting-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-add-stat {
+    width: 100%;
+  }
+}

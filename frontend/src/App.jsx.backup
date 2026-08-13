@@ -1,0 +1,106 @@
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
+
+// Pages
+import Dashboard from './pages/Dashboard';
+import Staff from './pages/Staff';
+import Roster from './pages/Roster';
+import Calendar from './pages/Calendar';
+import Trainings from './pages/Trainings';
+import Playbook from './pages/Playbook';
+import Scouting from './pages/Scouting';
+import Organization from './pages/Organization';
+
+export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navigationItems = [
+    { label: 'Dashboard', path: '/' },
+    { label: 'Staff', path: '/staff' },
+    { label: 'Roster', path: '/roster' },
+    { label: 'Calendario', path: '/calendar' },
+    { label: 'Allenamenti', path: '/trainings' },
+    { label: 'Playbook', path: '/playbook' },
+    { label: 'Scouting', path: '/scouting' },
+    { label: 'Organizzazione', path: '/organization' },
+  ];
+
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <header className="bg-white shadow">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="text-2xl font-bold text-primary">🏀</div>
+              <h1 className="text-2xl font-bold text-gray-900">Gestionale Basket</h1>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex gap-6">
+              {navigationItems.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="text-gray-700 hover:text-primary font-medium transition"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {/* Mobile Navigation */}
+          {mobileMenuOpen && (
+            <nav className="md:hidden bg-gray-50 border-t">
+              <div className="px-4 py-3 space-y-2">
+                {navigationItems.map(item => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-4 py-2 text-gray-700 hover:bg-primary hover:text-white rounded transition"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </nav>
+          )}
+        </header>
+
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 py-8">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/staff" element={<Staff />} />
+            <Route path="/roster" element={<Roster />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/trainings" element={<Trainings />} />
+            <Route path="/playbook" element={<Playbook />} />
+            <Route path="/scouting" element={<Scouting />} />
+            <Route path="/organization" element={<Organization />} />
+          </Routes>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-gray-800 text-white mt-12">
+          <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+            <p className="text-gray-400">
+              Gestionale Pallacanestro Femminile © 2025 - Campania
+            </p>
+          </div>
+        </footer>
+      </div>
+    </Router>
+  );
+}

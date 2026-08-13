@@ -1,0 +1,31 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer beige circle -->
+  <circle cx="100" cy="100" r="100" fill="#D4C5A0"/>
+
+  <!-- Left half (black) -->
+  <circle cx="100" cy="100" r="90" fill="none"/>
+  <path d="M 100 10 A 90 90 0 0 0 100 190 L 100 100 Z" fill="#1a1a1a"/>
+
+  <!-- Right half (red) -->
+  <path d="M 100 10 A 90 90 0 0 1 100 190 L 100 100 Z" fill="#E63946"/>
+
+  <!-- Text styling -->
+  <defs>
+    <style>
+      .geas-text { font-family: Arial, sans-serif; font-weight: bold; fill: #D4C5A0; letter-spacing: 3px; }
+      .geas-main { font-size: 60px; }
+      .geas-small { font-size: 14px; }
+      .geas-year { font-size: 16px; }
+    </style>
+  </defs>
+
+  <!-- Left side text (on black) -->
+  <text x="50" y="120" class="geas-text geas-main" text-anchor="middle">GE</text>
+  <text x="50" y="35" class="geas-text geas-small" text-anchor="middle">BASKET</text>
+  <text x="50" y="165" class="geas-text geas-year" text-anchor="middle">1955</text>
+
+  <!-- Right side text (on red) -->
+  <text x="150" y="120" class="geas-text geas-main" text-anchor="middle">AS</text>
+  <text x="150" y="35" class="geas-text geas-small" text-anchor="middle">KET</text>
+  <text x="150" y="165" class="geas-text geas-year" text-anchor="middle">1955</text>
+</svg>

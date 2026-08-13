@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/tmp/run-gestionale-full.sh",
+      "runtimeArgs": [],
+      "port": 5173
+    }
+  ]
+}

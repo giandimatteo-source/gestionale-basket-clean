@@ -1,0 +1,20 @@
+{
+  "name": "gestionale-basket-femminile",
+  "version": "0.1.0",
+  "description": "Gestionale centralizzato per team pallacanestro femminile - STAFF, ROSTER, CALENDAR, SCOUTING, PLAYBOOK",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "frontend:dev": "cd frontend && npm run dev",
+    "backend:dev": "cd backend && nodemon src/server.js",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && node src/server.js"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

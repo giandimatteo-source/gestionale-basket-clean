@@ -1,0 +1,76 @@
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { verifyToken } from '../middleware/auth.js';
+import {
+  getScoutingReports,
+  getScoutingReportById,
+  createScoutingReport,
+  updateScoutingReport,
+  deleteScoutingReport,
+  deleteScoutingFile,
+  createScoutingNote,
+  getScoutingNotes,
+  deleteScoutingNote,
+} from '../controllers/scoutingController.js';
+
+const router = express.Router();
+
+// Multer setup for file uploads (Excel, Keynote, PDF, Video)
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/scouting/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, 'scouting-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedMimes = [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+    'application/vnd.ms-excel', // xls
+    'application/vnd.ms-keynote', // keynote
+    'application/pdf',
+    'video/mp4',
+    'video/mpeg',
+    'video/quicktime',
+    'video/x-msvideo',
+    'video/webm',
+  ];
+  if (allowedMimes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only Excel, Keynote, PDF and video files are allowed'), false);
+  }
+};
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
+});
+
+const checkEditPermission = (req, res, next) => {
+  const user = req.user;
+  if (!['ADMIN', 'EDITOR'].includes(user?.role)) {
+    return res.status(403).json({ success: false, error: 'Unauthorized' });
+  }
+  next();
+};
+
+// Routes
+router.get('/', verifyToken, getScoutingReports);
+router.get('/:id', verifyToken, getScoutingReportById);
+router.post('/', verifyToken, checkEditPermission, upload.single('file'), createScoutingReport);
+router.put('/:id', verifyToken, checkEditPermission, upload.single('file'), updateScoutingReport);
+router.delete('/:id/file', verifyToken, checkEditPermission, deleteScoutingFile);
+router.delete('/:id', verifyToken, checkEditPermission, deleteScoutingReport);
+
+// Notes routes
+router.get('/:id/notes', verifyToken, getScoutingNotes);
+router.post('/notes/create', verifyToken, createScoutingNote);
+router.delete('/notes/:id', verifyToken, checkEditPermission, deleteScoutingNote);
+
+export default router;
