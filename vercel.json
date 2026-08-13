@@ -1,7 +1,13 @@
 {
   "functions": {
-    "api/**/*.js": {
+    "frontend/api/**/*.js": {
       "runtime": "nodejs18.x"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/frontend/api/$1"
+    }
+  ]
 }
