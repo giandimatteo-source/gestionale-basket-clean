@@ -93,6 +93,31 @@ export const login = async (req, res) => {
   }
 };
 
+// Create Admin (protected by secret key)
+export const createAdmin = async (req, res) => {
+  try {
+    const { email, password, name, secretKey } = req.body;
+
+    // Verify secret key
+    const adminSecret = process.env.ADMIN_SECRET_KEY || 'admin-secret-key-12345';
+    if (secretKey !== adminSecret) {
+      return res.status(401).json({ error: 'Chiave segreta non valida' });
+    }
+
+    if (!email || !password || !name) {
+      return res.status(400).json({ error: 'Email, password e name sono richiesti' });
+    }
+
+    // Register or update user as ADMIN (forceUpdate = true allows upsert)
+    const user = await registerUser(email, password, name, 'ADMIN', true);
+    const token = generateToken(user);
+    res.json({ success: true, token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+  } catch (error) {
+    console.error('Error in createAdmin:', error);
+    res.status(400).json({ error: error.message || 'Errore nella creazione dell\'admin' });
+  }
+};
+
 // Test token for development
 export const getTestToken = async (req, res) => {
   try {

@@ -86,14 +86,31 @@ export const verifyToken = (token) => {
   }
 };
 
-// Registrazione con email e password
-export const registerUser = async (email, password, name, role = 'USER') => {
+// Registrazione con email e password (crea o aggiorna)
+export const registerUser = async (email, password, name, role = 'USER', forceUpdate = false) => {
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
+
+    // Se esiste e non è una registrazione forzata, ritorna errore
+    if (existingUser && !forceUpdate) {
       throw new Error('Email già registrata');
     }
 
+    // Se esiste e forceUpdate è true, aggiorna
+    if (existingUser && forceUpdate) {
+      const hashedPassword = password ? await bcrypt.hash(password, 10) : existingUser.password;
+      const user = await prisma.user.update({
+        where: { email },
+        data: {
+          ...(password && { password: hashedPassword }),
+          name: name || existingUser.name,
+          role,
+        },
+      });
+      return user;
+    }
+
+    // Crea nuovo utente
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {

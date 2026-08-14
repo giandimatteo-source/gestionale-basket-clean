@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import { handleGoogleAuth, getCurrentUser, refreshToken, logout, health, getTestToken, register, login } from '../controllers/authController.js';
+import { handleGoogleAuth, getCurrentUser, refreshToken, logout, health, getTestToken, register, login, createAdmin } from '../controllers/authController.js';
 import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.get('/health', health);
 // Email/Password Authentication
 router.post('/register', register);
 router.post('/login', login);
+router.post('/create-admin', createAdmin);
 
 // Test token (development only)
 router.get('/test-token', getTestToken);

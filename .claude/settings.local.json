@@ -96,7 +96,11 @@
       "Bash(grep -i \".js$\")",
       "Bash(kill -9 6699)",
       "Bash(/usr/local/bin/npm start *)",
-      "Bash(node src/server.js)"
+      "Bash(node src/server.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git commit *)"
     ]
   }
 }
