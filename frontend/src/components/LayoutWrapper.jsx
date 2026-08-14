@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
-import { Menu, X, Home, Users, Grid, Calendar, Dumbbell, BookOpen, Crosshair, Settings, LogOut, User } from 'lucide-react';
+import { useUserRole } from '../hooks/useUserRole';
+import { Menu, X, Home, Users, Grid, Calendar, Dumbbell, BookOpen, Crosshair, Settings, LogOut, User, Shield } from 'lucide-react';
 import GeasLogo from '../assets/Logo-GEAS-2.png';
 import '../styles/Layout.css';
 
@@ -21,6 +22,7 @@ export default function LayoutWrapper() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAdmin } = useUserRole();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -62,6 +64,20 @@ export default function LayoutWrapper() {
               </Link>
             );
           })}
+
+          {isAdmin && (
+            <>
+              <div style={{ height: '1px', background: 'rgba(148, 163, 184, 0.1)', margin: '1rem 0' }} />
+              <Link
+                to="/admin"
+                className={`nav-item ${location.pathname === '/admin' ? 'active' : ''}`}
+                title="Admin Panel"
+              >
+                <Shield size={20} className="nav-icon" />
+                {sidebarOpen && <span className="nav-label">Admin Panel</span>}
+              </Link>
+            </>
+          )}
         </nav>
 
         <div className="sidebar-footer">

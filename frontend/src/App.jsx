@@ -17,6 +17,7 @@ import Playbook from './pages/Playbook';
 import Scouting from './pages/Scouting';
 import PracticesShootingStats from './pages/PracticesShootingStats';
 import Organization from './pages/Organization';
+import Admin from './pages/Admin';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/playbook" element={<Playbook />} />
           <Route path="/scouting" element={<Scouting />} />
           <Route path="/organization" element={<Organization />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
     </Router>
