@@ -79,7 +79,7 @@ export default function PlayerDetail() {
       const response = await fetch(`/api/roster/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Errore nel caricamento');
+      if (!response.ok) throw new Error('Error loading');
       const data = await response.json();
       setPlayer(data.data);
       if (data.data.stats) {

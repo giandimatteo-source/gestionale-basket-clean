@@ -4,7 +4,7 @@ import { findOrCreateUser, generateToken, getUserById, registerUser, loginUser }
 export const handleGoogleAuth = async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: 'Autenticazione Google fallita' });
+      return res.status(401).json({ error: 'Google authentication failed' });
     }
 
     const user = await findOrCreateUser(req.user);
@@ -26,7 +26,7 @@ export const getCurrentUser = async (req, res) => {
     res.json({ success: true, user });
   } catch (error) {
     console.error('Error in getCurrentUser:', error);
-    res.status(500).json({ error: 'Errore nel recupero dati utente' });
+    res.status(500).json({ error: 'Error retrieving user data' });
   }
 };
 
@@ -38,7 +38,7 @@ export const refreshToken = async (req, res) => {
     res.json({ success: true, token: newToken });
   } catch (error) {
     console.error('Error in refreshToken:', error);
-    res.status(500).json({ error: 'Errore nel refresh token' });
+    res.status(500).json({ error: 'Error refreshing token' });
   }
 };
 
@@ -47,10 +47,10 @@ export const logout = async (req, res) => {
   try {
     // Con JWT, il logout è gestito lato client (rimuovere token)
     // Ma puoi aggiungere logica server-side se necessario
-    res.json({ success: true, message: 'Logout effettuato' });
+    res.json({ success: true, message: 'Logout successful' });
   } catch (error) {
     console.error('Error in logout:', error);
-    res.status(500).json({ error: 'Errore durante il logout' });
+    res.status(500).json({ error: 'Error during logout' });
   }
 };
 
@@ -64,7 +64,7 @@ export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
     if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Email, password e name sono richiesti' });
+      return res.status(400).json({ error: 'Email, password and name are required' });
     }
 
     const user = await registerUser(email, password, name, 'USER');
@@ -72,7 +72,7 @@ export const register = async (req, res) => {
     res.json({ success: true, token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
   } catch (error) {
     console.error('Error in register:', error);
-    res.status(400).json({ error: error.message || 'Errore nella registrazione' });
+    res.status(400).json({ error: error.message || 'Registration error' });
   }
 };
 
@@ -81,7 +81,7 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email e password sono richiesti' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     const user = await loginUser(email, password);
@@ -101,11 +101,11 @@ export const createAdmin = async (req, res) => {
     // Verify secret key
     const adminSecret = process.env.ADMIN_SECRET_KEY || 'admin-secret-key-12345';
     if (secretKey !== adminSecret) {
-      return res.status(401).json({ error: 'Chiave segreta non valida' });
+      return res.status(401).json({ error: 'Invalid secret key' });
     }
 
     if (!email || !password || !name) {
-      return res.status(400).json({ error: 'Email, password e name sono richiesti' });
+      return res.status(400).json({ error: 'Email, password and name are required' });
     }
 
     // Register or update user as ADMIN (forceUpdate = true allows upsert)
@@ -132,6 +132,6 @@ export const getTestToken = async (req, res) => {
     res.json({ success: true, token, user: testUser });
   } catch (error) {
     console.error('Error generating test token:', error);
-    res.status(500).json({ error: 'Errore nella generazione del token di test' });
+    res.status(500).json({ error: 'Error generating test token' });
   }
 };

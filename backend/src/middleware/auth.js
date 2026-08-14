@@ -6,13 +6,13 @@ export const verifyToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
   if (!token) {
-    return res.status(401).json({ error: 'Token non fornito' });
+    return res.status(401).json({ error: 'Token not provided' });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       console.error('Token verification error:', err);
-      return res.status(403).json({ error: 'Token non valido o scaduto' });
+      return res.status(403).json({ error: 'Invalid or expired token' });
     }
     req.user = user;
     next();
@@ -22,7 +22,7 @@ export const verifyToken = (req, res, next) => {
 // Middleware per verificare se admin
 export const isAdmin = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).json({ error: 'Non autenticato' });
+    return res.status(401).json({ error: 'Not authenticated' });
   }
 
   if (req.user.role !== 'ADMIN') {
@@ -35,7 +35,7 @@ export const isAdmin = (req, res, next) => {
 // Middleware per verificare se coach o admin
 export const isCoach = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).json({ error: 'Non autenticato' });
+    return res.status(401).json({ error: 'Not authenticated' });
   }
 
   const allowedRoles = ['ADMIN', 'COACH'];

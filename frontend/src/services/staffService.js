@@ -17,7 +17,7 @@ export const getStaffList = async (page = 1, limit = 10, filters = {}) => {
       },
     });
 
-    if (!response.ok) throw new Error('Errore nel caricamento staff');
+    if (!response.ok) throw new Error('Error loading staff');
     return await response.json();
   } catch (error) {
     console.error('Error fetching staff:', error);
@@ -195,7 +195,7 @@ export const getStaffStats = async () => {
       },
     });
 
-    if (!response.ok) throw new Error('Errore nel caricamento statistiche');
+    if (!response.ok) throw new Error('Error loading statistiche');
     return await response.json();
   } catch (error) {
     console.error('Error fetching stats:', error);

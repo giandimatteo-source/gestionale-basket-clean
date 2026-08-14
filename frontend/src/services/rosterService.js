@@ -17,7 +17,7 @@ export const getRosterList = async (page = 1, limit = 10, filters = {}) => {
       },
     });
 
-    if (!response.ok) throw new Error('Errore nel caricamento giocatrici');
+    if (!response.ok) throw new Error('Error loading giocatrici');
     return await response.json();
   } catch (error) {
     console.error('Error fetching roster:', error);
@@ -153,7 +153,7 @@ export const getRosterStats = async () => {
       },
     });
 
-    if (!response.ok) throw new Error('Errore nel caricamento statistiche');
+    if (!response.ok) throw new Error('Error loading statistiche');
     return await response.json();
   } catch (error) {
     console.error('Error fetching roster stats:', error);

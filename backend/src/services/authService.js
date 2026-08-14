@@ -93,7 +93,7 @@ export const registerUser = async (email, password, name, role = 'USER', forceUp
 
     // Se esiste e non è una registrazione forzata, ritorna errore
     if (existingUser && !forceUpdate) {
-      throw new Error('Email già registrata');
+      throw new Error('Email already registered');
     }
 
     // Se esiste e forceUpdate è true, aggiorna
@@ -133,12 +133,12 @@ export const loginUser = async (email, password) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || !user.password) {
-      throw new Error('Email o password non validi');
+      throw new Error('Invalid email or password');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new Error('Email o password non validi');
+      throw new Error('Invalid email or password');
     }
 
     return user;

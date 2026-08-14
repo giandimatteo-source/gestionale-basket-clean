@@ -24,7 +24,7 @@ export default function Admin() {
       });
 
       if (!response.ok) {
-        throw new Error('Errore nel caricamento utenti');
+        throw new Error('Error loading utenti');
       }
 
       const data = await response.json();
@@ -91,8 +91,8 @@ export default function Admin() {
     return (
       <div className="page-container">
         <div style={{ textAlign: 'center', padding: '3rem', color: '#FF5860' }}>
-          <h1>❌ Accesso Negato</h1>
-          <p>Solo gli admin possono accedere a questa sezione.</p>
+          <h1>❌ Access Denied</h1>
+          <p>Only admins possono accedere a questa sezione.</p>
         </div>
       </div>
     );
@@ -104,7 +104,7 @@ export default function Admin() {
         <h1 style={{ fontSize: '2rem', fontWeight: '700', color: '#f1f5f9', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Shield size={32} /> Admin Panel
         </h1>
-        <p style={{ color: '#cbd5e1' }}>Gestisci utenti e assegna ruoli</p>
+        <p style={{ color: '#cbd5e1' }}>Manage users e assegna ruoli</p>
       </div>
 
       {error && (
@@ -121,7 +121,7 @@ export default function Admin() {
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#cbd5e1' }}>
-          Caricamento utenti...
+          Loading users...
         </div>
       ) : (
         <div style={{ overflowX: 'auto' }}>
@@ -195,7 +195,7 @@ export default function Admin() {
 
           {users.length === 0 && (
             <div style={{ textAlign: 'center', padding: '2rem', color: '#cbd5e1' }}>
-              Nessun utente trovato
+              No users found
             </div>
           )}
         </div>

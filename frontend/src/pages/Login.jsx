@@ -51,7 +51,7 @@ export default function Login() {
         <img src={GeasLogo} alt="GEAS Basket Logo" className="login-logo" />
         <h1>GEAS Basket</h1>
         <p className="login-subtitle">
-          {isLogin ? 'Accedi al gestionale' : 'Registrati al gestionale'}
+          {isLogin ? 'Login to Dashboard' : 'Sign Up'}
         </p>
 
         {error && <div className="login-error">{error}</div>}
@@ -60,7 +60,7 @@ export default function Login() {
           {!isLogin && (
             <input
               type="text"
-              placeholder="Nome completo"
+              placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required={!isLogin}
@@ -88,13 +88,13 @@ export default function Login() {
             disabled={loading}
             className="login-button"
           >
-            {loading ? 'Caricamento...' : isLogin ? 'Accedi' : 'Registrati'}
+            {loading ? 'Loading...' : isLogin ? 'Login' : 'Sign Up'}
           </button>
         </form>
 
         <div className="login-toggle">
           <p>
-            {isLogin ? 'Non hai un account? ' : 'Hai già un account? '}
+            {isLogin ? 'Don\'t have an account? ' : 'Already have an account? '}
             <button
               type="button"
               onClick={() => {
@@ -103,7 +103,7 @@ export default function Login() {
               }}
               className="login-toggle-button"
             >
-              {isLogin ? 'Registrati' : 'Accedi'}
+              {isLogin ? 'Sign Up' : 'Login'}
             </button>
           </p>
         </div>

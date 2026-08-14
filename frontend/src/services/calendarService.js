@@ -15,7 +15,7 @@ export async function getEvents(startDate, endDate) {
     headers: { Authorization: `Bearer ${getToken()}` },
   });
 
-  if (!response.ok) throw new Error('Errore nel caricamento degli eventi');
+  if (!response.ok) throw new Error('Error loading degli eventi');
   return response.json();
 }
 
@@ -24,7 +24,7 @@ export async function getEventById(id) {
     headers: { Authorization: `Bearer ${getToken()}` },
   });
 
-  if (!response.ok) throw new Error('Errore nel caricamento dell\'evento');
+  if (!response.ok) throw new Error('Error loading dell\'evento');
   return response.json();
 }
 
