@@ -142,3 +142,126 @@
   font-size: 0.85rem;
   margin: 0;
 }
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .login-container {
+    padding: var(--spacing-md);
+    min-height: auto;
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: var(--spacing-xl);
+    border-radius: 12px;
+  }
+
+  .login-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .login-card h1 {
+    font-size: 1.75rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .login-input {
+    padding: var(--spacing-md);
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+
+  .login-button {
+    padding: var(--spacing-md);
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .login-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--spacing-md);
+    min-height: 100vh;
+    padding-top: var(--spacing-2xl);
+  }
+
+  .login-card {
+    max-width: 100%;
+    padding: var(--spacing-lg);
+    border-radius: 8px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .login-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .login-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .login-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .login-error {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  .login-card form {
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .login-input {
+    padding: var(--spacing-md);
+    font-size: 16px;
+    border-radius: 6px;
+    min-height: 44px;
+  }
+
+  .login-button {
+    padding: var(--spacing-md);
+    font-size: 0.9rem;
+    min-height: 44px;
+    border-radius: 6px;
+    margin-top: var(--spacing-sm);
+  }
+
+  .login-toggle {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .login-toggle p {
+    font-size: 0.85rem;
+  }
+
+  .login-toggle-button {
+    font-size: 0.85rem;
+  }
+
+  .login-footer {
+    padding-top: var(--spacing-md);
+  }
+
+  .login-footer p {
+    font-size: 0.75rem;
+  }
+}
