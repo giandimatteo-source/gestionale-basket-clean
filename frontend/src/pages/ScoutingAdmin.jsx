@@ -253,7 +253,7 @@ export default function ScoutingAdminPage() {
               </div>
 
               <div className="form-group">
-                <label>Link to Match Event</label>
+                <label>Link to Game Event</label>
                 <select
                   value={formData.eventId}
                   onChange={(e) => setFormData({ ...formData, eventId: e.target.value })}
