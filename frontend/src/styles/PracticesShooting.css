@@ -20,11 +20,14 @@
 
 /* Players Table */
 .players-table-container {
-  overflow-x: auto;
+  overflow-x: auto !important;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
   background: rgba(26, 31, 58, 0.6);
   border: 1px solid rgba(0, 217, 255, 0.1);
   border-radius: 1rem;
   margin-bottom: 2rem;
+  width: auto;
 }
 
 .players-table {
@@ -212,10 +215,13 @@
 
 /* Stats Table */
 .stats-table-detail-container {
-  overflow-x: auto;
+  overflow-x: auto !important;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid rgba(0, 217, 255, 0.2);
   border-radius: 0.75rem;
   background: rgba(26, 31, 58, 0.8);
+  width: auto;
 }
 
 .stats-table-detail {
