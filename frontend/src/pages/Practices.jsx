@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Play, Trash2, Edit, Upload } from 'lucide-react';
-import { getTrainingSessions, createTrainingSession, updateTrainingSession, deleteTrainingSession } from '../services/trainingsService.js';
-import '../styles/Trainings.css';
+import { getTrainingSessions, createTrainingSession, updateTrainingSession, deleteTrainingSession } from '../services/practicesService.js';
+import '../styles/Practices.css';
 
 export default function Practices() {
   const [sessions, setSessions] = useState([]);

@@ -15,7 +15,7 @@ import authRoutes from './routes/auth.js';
 import staffRoutes from './routes/staff.js';
 import rosterRoutes from './routes/roster.js';
 import calendarRoutes from './routes/calendar.js';
-import trainingsRoutes from './routes/trainings.js';
+import practicesRoutes from './routes/practices.js';
 import playbookRoutes from './routes/playbook.js';
 import scoutingRoutes from './routes/scouting.js';
 import scoutingSectionsRoutes from './routes/scoutingSections.js';
@@ -98,8 +98,8 @@ app.use('/api/roster', verifyToken, rosterRoutes);
 // Calendar routes (require authentication)
 app.use('/api/calendar', verifyToken, calendarRoutes);
 
-// Trainings routes (require authentication)
-app.use('/api/trainings', verifyToken, trainingsRoutes);
+// Practices routes (require authentication)
+app.use('/api/practices', verifyToken, practicesRoutes);
 
 // Playbook routes (require authentication)
 app.use('/api/playbook', verifyToken, playbookRoutes);

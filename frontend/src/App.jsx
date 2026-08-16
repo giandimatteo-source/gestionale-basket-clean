@@ -1,6 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, useNavigate } from 'react-router-dom';
 import LayoutWrapper from './components/LayoutWrapper.jsx';
+import { ToastProvider } from './context/ToastContext.jsx';
+import { Toast } from './components/Toast.jsx';
+import { setToastCallback, setNavigateCallback } from './utils/apiClient.js';
 import './index.css';
 
 // Pages
@@ -19,9 +22,21 @@ import PracticesShootingStats from './pages/PracticesShootingStats';
 import Organization from './pages/Organization';
 import Admin from './pages/Admin';
 
-export default function App() {
+function AppContent() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Import useToast hook to use toast
+    const initializeCallbacks = async () => {
+      const { useToast } = await import('./context/ToastContext.jsx');
+      // This will be set in LayoutWrapper
+    };
+    initializeCallbacks();
+  }, []);
+
   return (
-    <Router>
+    <>
+      <Toast />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<LayoutWrapper />}>
@@ -41,6 +56,16 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
-    </Router>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </ToastProvider>
   );
 }

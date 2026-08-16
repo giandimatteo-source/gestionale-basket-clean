@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useUserRole } from '../hooks/useUserRole';
+import { useToast } from '../context/ToastContext';
+import { setToastCallback, setNavigateCallback } from '../utils/apiClient';
 import { Menu, X, Home, Users, Grid, Calendar, Dumbbell, BookOpen, Crosshair, Settings, LogOut, User, Shield } from 'lucide-react';
 import GeasLogo from '../assets/Logo-GEAS-2.png';
 import '../styles/Layout.css';
@@ -23,6 +25,12 @@ export default function LayoutWrapper() {
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useUserRole();
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    setToastCallback(addToast);
+    setNavigateCallback(navigate);
+  }, [addToast, navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');

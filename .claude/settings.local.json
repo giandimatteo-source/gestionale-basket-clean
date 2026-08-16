@@ -100,7 +100,11 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(mv services/trainingsService.js services/practicesService.js)",
+      "Bash(mv styles/Trainings.css styles/Practices.css)",
+      "Bash(mv controllers/trainingsController.js controllers/practicesController.js)",
+      "Bash(mv routes/trainings.js routes/practices.js)"
     ]
   }
 }
