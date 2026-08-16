@@ -26,21 +26,6 @@ function AppContent() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if running in PWA standalone mode - only on first load
-    const isStandalone = window.navigator.standalone === true ||
-                         window.matchMedia('(display-mode: standalone)').matches;
-
-    const hasHandledStandalone = sessionStorage.getItem('pwa_standalone_handled');
-
-    if (isStandalone && !hasHandledStandalone) {
-      // Auto logout only once when PWA is first opened
-      sessionStorage.setItem('pwa_standalone_handled', 'true');
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      navigate('/login');
-      return;
-    }
-
     // Import useToast hook to use toast
     const initializeCallbacks = async () => {
       const { useToast } = await import('./context/ToastContext.jsx');
