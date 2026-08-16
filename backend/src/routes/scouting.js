@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import { verifyToken } from '../middleware/auth.js';
+import { uploadToSpaces } from '../utils/spacesUpload.js';
 import {
   getScoutingReports,
   getScoutingReportById,
@@ -16,16 +17,8 @@ import {
 
 const router = express.Router();
 
-// Multer setup for file uploads (Excel, Keynote, PDF, Video)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/scouting/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'scouting-' + uniqueSuffix + path.extname(file.originalname));
-  },
-});
+// Multer setup for file uploads (memory storage for Spaces)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowedMimes = [
@@ -52,6 +45,18 @@ const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
 });
 
+const uploadToSpacesMiddleware = async (req, res, next) => {
+  if (req.file) {
+    try {
+      const fileUrl = await uploadToSpaces(req.file, 'scouting');
+      req.file.location = fileUrl;
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload file' });
+    }
+  }
+  next();
+};
+
 const checkEditPermission = (req, res, next) => {
   const user = req.user;
   if (!['ADMIN', 'EDITOR'].includes(user?.role)) {
@@ -63,8 +68,8 @@ const checkEditPermission = (req, res, next) => {
 // Routes
 router.get('/', verifyToken, getScoutingReports);
 router.get('/:id', verifyToken, getScoutingReportById);
-router.post('/', verifyToken, checkEditPermission, upload.single('file'), createScoutingReport);
-router.put('/:id', verifyToken, checkEditPermission, upload.single('file'), updateScoutingReport);
+router.post('/', verifyToken, checkEditPermission, upload.single('file'), uploadToSpacesMiddleware, createScoutingReport);
+router.put('/:id', verifyToken, checkEditPermission, upload.single('file'), uploadToSpacesMiddleware, updateScoutingReport);
 router.delete('/:id/file', verifyToken, checkEditPermission, deleteScoutingFile);
 router.delete('/:id', verifyToken, checkEditPermission, deleteScoutingReport);
 

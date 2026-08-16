@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import { verifyToken } from '../middleware/auth.js';
+import { uploadToSpaces } from '../utils/spacesUpload.js';
 import {
   getTrainingSessions,
   getTrainingSessionById,
@@ -13,16 +14,8 @@ import {
 
 const router = express.Router();
 
-// Multer setup for video uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/trainings/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'training-' + uniqueSuffix + path.extname(file.originalname));
-  },
-});
+// Multer setup for video uploads (memory storage for Spaces)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   // Allow video files
@@ -40,6 +33,19 @@ const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
 });
 
+// Middleware to upload to Spaces
+const uploadToSpacesMiddleware = async (req, res, next) => {
+  if (req.file) {
+    try {
+      const fileUrl = await uploadToSpaces(req.file, 'trainings');
+      req.file.location = fileUrl;
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload video' });
+    }
+  }
+  next();
+};
+
 // Middleware for role-based access
 const checkEditPermission = (req, res, next) => {
   const user = req.user;
@@ -52,9 +58,9 @@ const checkEditPermission = (req, res, next) => {
 // Routes
 router.get('/', verifyToken, getTrainingSessions);
 router.get('/:id', verifyToken, getTrainingSessionById);
-router.post('/', verifyToken, checkEditPermission, upload.single('video'), createTrainingSession);
-router.put('/:id', verifyToken, checkEditPermission, upload.single('video'), updateTrainingSession);
+router.post('/', verifyToken, checkEditPermission, upload.single('video'), uploadToSpacesMiddleware, createTrainingSession);
+router.put('/:id', verifyToken, checkEditPermission, upload.single('video'), uploadToSpacesMiddleware, updateTrainingSession);
 router.delete('/:id', verifyToken, checkEditPermission, deleteTrainingSession);
-router.post('/upload/video', verifyToken, checkEditPermission, upload.single('video'), uploadTrainingVideo);
+router.post('/upload/video', verifyToken, checkEditPermission, upload.single('video'), uploadToSpacesMiddleware, uploadTrainingVideo);
 
 export default router;

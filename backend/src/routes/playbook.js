@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import path from 'path';
 import { verifyToken } from '../middleware/auth.js';
+import { uploadToSpaces } from '../utils/spacesUpload.js';
 import {
   getPlaybooks,
   getPlaybookById,
@@ -13,16 +14,8 @@ import {
 
 const router = express.Router();
 
-// Multer setup for file uploads (PDF and Video)
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/playbooks/');
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'playbook-' + uniqueSuffix + path.extname(file.originalname));
-  },
-});
+// Multer setup for file uploads (memory storage for Spaces)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowedMimes = [
@@ -46,6 +39,18 @@ const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
 });
 
+const uploadToSpacesMiddleware = async (req, res, next) => {
+  if (req.file) {
+    try {
+      const fileUrl = await uploadToSpaces(req.file, 'playbooks');
+      req.file.location = fileUrl;
+    } catch (error) {
+      return res.status(500).json({ error: 'Failed to upload file' });
+    }
+  }
+  next();
+};
+
 const checkEditPermission = (req, res, next) => {
   const user = req.user;
   if (!['ADMIN', 'EDITOR'].includes(user?.role)) {
@@ -58,8 +63,8 @@ const checkEditPermission = (req, res, next) => {
 router.get('/', verifyToken, getPlaybooks);
 router.get('/tags/all', verifyToken, getAllTags);
 router.get('/:id', verifyToken, getPlaybookById);
-router.post('/', verifyToken, checkEditPermission, upload.single('file'), createPlaybook);
-router.put('/:id', verifyToken, checkEditPermission, upload.single('file'), updatePlaybook);
+router.post('/', verifyToken, checkEditPermission, upload.single('file'), uploadToSpacesMiddleware, createPlaybook);
+router.put('/:id', verifyToken, checkEditPermission, upload.single('file'), uploadToSpacesMiddleware, updatePlaybook);
 router.delete('/:id', verifyToken, checkEditPermission, deletePlaybook);
 
 export default router;

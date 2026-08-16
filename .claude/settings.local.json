@@ -110,7 +110,8 @@
       "Bash(curl -X POST http://localhost:5000/api/auth/create-admin -H 'Content-Type: application/json' -d '{ *)",
       "Bash(curl -s https://whale-app-rw3dr.ondigitalocean.app)",
       "Bash(grep -E \"\\\\.css$\")",
-      "Bash(curl -s \"https://whale-app-rw3dr.ondigitalocean.app/api/staff\" -H \"Authorization: Bearer test\")"
+      "Bash(curl -s \"https://whale-app-rw3dr.ondigitalocean.app/api/staff\" -H \"Authorization: Bearer test\")",
+      "Bash(grep -E \"\\\\.\\(jsx|js\\)$\")"
     ]
   }
 }
