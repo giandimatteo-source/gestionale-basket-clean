@@ -192,7 +192,7 @@ export default function Staff() {
                 padding: '0.5rem 1rem',
                 borderRadius: '0.25rem',
                 cursor: 'pointer',
-                display: 'flex',
+                display: window.innerWidth <= 480 ? 'none' : 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
                 fontSize: '0.875rem',

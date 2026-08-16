@@ -194,7 +194,7 @@ export default function Roster() {
               border: 'none',
               fontWeight: '600',
               fontSize: '0.875rem',
-              display: 'flex',
+              display: window.innerWidth <= 480 ? 'none' : 'flex',
               alignItems: 'center',
               gap: '0.5rem',
               transition: 'all 200ms ease',
