@@ -89,6 +89,25 @@ export default function LayoutWrapper() {
               </Link>
             </>
           )}
+
+          {/* Logout button - visible on mobile navbar */}
+          <button
+            onClick={handleLogout}
+            className="nav-item"
+            style={{
+              display: window.innerWidth <= 480 ? 'flex' : 'none',
+              background: 'rgba(255, 56, 96, 0.1)',
+              color: '#FF5860',
+              border: 'none',
+              cursor: 'pointer',
+              marginTop: 'auto',
+              marginLeft: 'auto',
+            }}
+            title="Logout"
+          >
+            <LogOut size={20} className="nav-icon" />
+            <span className="nav-label">Logout</span>
+          </button>
         </nav>
 
         <div className="sidebar-footer">
@@ -161,7 +180,7 @@ export default function LayoutWrapper() {
 
         {/* Footer */}
         <footer className="footer">
-          <p>Property of Gianmarco Di Matteo</p>
+          <p>Digital Property of Gianmarco Di Matteo</p>
         </footer>
       </div>
 

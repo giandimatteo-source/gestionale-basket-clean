@@ -566,4 +566,14 @@
   .sidebar-toggle {
     padding: var(--spacing-sm);
   }
+
+  /* Footer */
+  .footer {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.65rem;
+  }
+
+  .footer p {
+    margin: 0;
+  }
 }
