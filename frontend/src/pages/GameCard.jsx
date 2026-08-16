@@ -79,8 +79,9 @@ export default function GameCard() {
     <div style={{ color: theme.text.primary }}>
       {/* Game Header */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: '16px',
         marginBottom: '24px',
         padding: '16px',
@@ -142,13 +143,16 @@ export default function GameCard() {
 
       {/* Scoreboard */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr 1fr',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: '16px',
         marginBottom: '24px',
       }}>
         {/* Our Score */}
         <div style={{
+          flex: '1 1 auto',
+          minWidth: '150px',
           backgroundColor: theme.bg.secondary,
           border: `2px solid ${theme.accent}`,
           borderRadius: '8px',
@@ -202,6 +206,8 @@ export default function GameCard() {
 
         {/* Quarter */}
         <div style={{
+          flex: '1 1 auto',
+          minWidth: '150px',
           backgroundColor: theme.bg.secondary,
           border: `1px solid ${theme.border}`,
           borderRadius: '8px',
@@ -242,6 +248,8 @@ export default function GameCard() {
 
         {/* Their Score */}
         <div style={{
+          flex: '1 1 auto',
+          minWidth: '150px',
           backgroundColor: theme.bg.secondary,
           border: `1px solid ${theme.border}`,
           borderRadius: '8px',
@@ -332,7 +340,7 @@ export default function GameCard() {
                 </button>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '8px' }}>
                 {/* Points */}
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '12px', color: theme.text.secondary }}>Punti</div>
@@ -519,7 +527,7 @@ export default function GameCard() {
       </div>
 
       {/* Action Log */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <div>
           <h2 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 16px 0' }}>📝 Log Azioni</h2>
           <div style={{

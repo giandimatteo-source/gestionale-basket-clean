@@ -59,10 +59,10 @@ export default function DailyReport() {
             <h2 style={{ color: section.color, marginTop: 0, marginBottom: '1.5rem' }}>{section.label}</h2>
 
             {/* PRE/POST Buttons */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
               <button
                 onClick={() => handleOpenEdit(section.id, 'pre')}
-                style={{ background: 'rgba(0, 217, 255, 0.1)', color: '#00D9FF', padding: '1rem', border: '1px solid rgba(0, 217, 255, 0.3)', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'all 200ms' }}
+                style={{ flex: '1 1 auto', minWidth: '150px', background: 'rgba(0, 217, 255, 0.1)', color: '#00D9FF', padding: '1rem', border: '1px solid rgba(0, 217, 255, 0.3)', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'all 200ms' }}
                 onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0, 217, 255, 0.2)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0, 217, 255, 0.1)'}
               >
@@ -70,7 +70,7 @@ export default function DailyReport() {
               </button>
               <button
                 onClick={() => handleOpenEdit(section.id, 'post')}
-                style={{ background: 'rgba(255, 107, 53, 0.1)', color: '#FF6B35', padding: '1rem', border: '1px solid rgba(255, 107, 53, 0.3)', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'all 200ms' }}
+                style={{ flex: '1 1 auto', minWidth: '150px', background: 'rgba(255, 107, 53, 0.1)', color: '#FF6B35', padding: '1rem', border: '1px solid rgba(255, 107, 53, 0.3)', borderRadius: '0.5rem', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'all 200ms' }}
                 onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 107, 53, 0.2)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 107, 53, 0.1)'}
               >
@@ -79,7 +79,7 @@ export default function DailyReport() {
             </div>
 
             {/* Content Display */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <div style={{ background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.15)', borderRadius: '0.5rem', padding: '1rem', minHeight: '100px', color: '#cbd5e1', fontSize: '0.875rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word', maxHeight: '200px', overflowY: 'auto' }}>
                 {report[section.id].pre || '—'}
               </div>

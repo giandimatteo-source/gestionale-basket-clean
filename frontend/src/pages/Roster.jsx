@@ -258,7 +258,7 @@ export default function Roster() {
                 </p>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.85rem', color: '#cbd5e1' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem', fontSize: '0.85rem', color: '#cbd5e1' }}>
                   {player.height && <div>📏 {player.height} cm</div>}
                   {player.weight && <div>⚖️ {player.weight} kg</div>}
                   {player.nationality && <div>🌍 {player.nationality}</div>}
@@ -272,7 +272,7 @@ export default function Roster() {
                 )}
 
                 {/* Actions */}
-                <div style={{ display: 'grid', gridTemplateColumns: isEditor ? '1fr 1fr' : '1fr', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => navigate(`/roster/${player.id}`)}
                     style={{ background: 'rgba(127, 255, 0, 0.1)', color: '#7FFF00', padding: '0.5rem', borderRadius: '0.5rem', border: '1px solid rgba(127, 255, 0, 0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem', fontSize: '0.875rem', fontWeight: '600' }}
