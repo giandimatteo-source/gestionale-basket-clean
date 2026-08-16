@@ -9,7 +9,7 @@ import {
   updateTrainingSession,
   deleteTrainingSession,
   uploadTrainingVideo,
-} from '../controllers/trainingsController.js';
+} from '../controllers/practicesController.js';
 
 const router = express.Router();
 
