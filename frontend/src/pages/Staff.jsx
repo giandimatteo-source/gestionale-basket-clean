@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Mail, Phone, Upload, Download, FileUp, X, Grid, List } from 'lucide-react';
+import { Plus, Edit, Trash2, Mail, Phone, Grid, List } from 'lucide-react';
 import {
   getStaffList,
   createStaff,
   updateStaff,
   deleteStaff,
-  importStaffFromExcel,
-  exportStaffToExcel,
 } from '../services/staffService';
 import { useUserRole } from '../hooks/useUserRole';
 
@@ -19,7 +17,6 @@ export default function Staff() {
   const [positionFilter, setPositionFilter] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [importLoading, setImportLoading] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
 
   // Role-based access control
@@ -111,33 +108,6 @@ export default function Staff() {
     }
   };
 
-  // Import Excel
-  const handleImportExcel = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setImportLoading(true);
-      const result = await importStaffFromExcel(file);
-      setSuccess(`Import completed: ${result.summary.created} created, ${result.summary.skipped} skipped`);
-      loadStaff();
-    } catch (err) {
-      setError('Error importing file');
-    } finally {
-      setImportLoading(false);
-    }
-  };
-
-  // Export Excel
-  const handleExportExcel = async () => {
-    try {
-      await exportStaffToExcel();
-      setSuccess('File downloaded successfully');
-    } catch (err) {
-      setError('Error exporting file');
-    }
-  };
-
   // Reset form
   const resetForm = () => {
     setFormData({ name: '', email: '', position: '', phone: '', bio: '', photo: null });
@@ -215,16 +185,6 @@ export default function Staff() {
               <Plus size={20} /> Add
             </button>
           )}
-          <button
-            onClick={handleExportExcel}
-            style={{ background: 'rgba(127, 255, 0, 0.1)', color: '#7FFF00', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: '1px solid rgba(127, 255, 0, 0.3)' }}
-          >
-            <Download size={20} /> Export
-          </button>
-          <label style={{ background: 'rgba(255, 107, 53, 0.1)', color: '#FF6B35', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: '1px solid rgba(255, 107, 53, 0.3)' }}>
-            <FileUp size={20} /> Import
-            <input type="file" accept=".xlsx,.csv" onChange={handleImportExcel} style={{ display: 'none' }} disabled={importLoading} />
-          </label>
         </div>
       </div>
 
