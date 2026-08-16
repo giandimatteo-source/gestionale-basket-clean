@@ -15,6 +15,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== MAIN CONTAINER WIDTH ===== */
+.page-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* ===== TABLE RESPONSIVITY ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper,
+.table-container,
+[style*="overflow-x"] {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -77,5 +97,62 @@ code {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* ===== TABLE RESPONSIVITY ===== */
+
+/* Tablet and below - wrap tables in scrollable container */
+@media (max-width: 1024px) {
+  table {
+    font-size: 0.9rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  /* Ensure tables don't overflow */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: calc(100vw - 40px);
+  }
+}
+
+/* Mobile - optimize table for small screens */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.8rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem 0.25rem;
+  }
+
+  /* Hide non-essential columns */
+  table th:nth-child(n+4),
+  table td:nth-child(n+4) {
+    display: none;
+  }
+
+  /* Ensure wrapper doesn't exceed viewport */
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* Desktop - full width tables */
+@media (min-width: 1025px) {
+  .page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  table {
+    width: 100%;
   }
 }

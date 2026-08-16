@@ -283,13 +283,27 @@
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-lg) 0;
+  overflow-x: hidden;
+  padding: var(--spacing-lg);
   animation: fadeIn var(--transition-base) ease-out;
   background: linear-gradient(135deg, var(--color-bg-darker) 0%, var(--color-bg-dark) 100%);
   color: var(--color-text-primary);
   width: 100%;
   box-sizing: border-box;
   max-width: 100%;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1025px) {
+  .page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 }
 
 .content::-webkit-scrollbar {
