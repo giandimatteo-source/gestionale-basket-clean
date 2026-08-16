@@ -136,53 +136,70 @@ div[style*="overflow-x: auto"],
   }
 }
 
-/* Mobile - make EVERYTHING fit viewport */
+/* Mobile - CARD LAYOUT FOR TABLES */
 @media (max-width: 480px) {
-  /* NO horizontal scroll - everything must fit */
-  * {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-
+  /* NO horizontal scroll */
   body, html {
     overflow-x: hidden !important;
   }
 
-  /* Reduce all font sizes */
-  body {
-    font-size: 13px;
-  }
-
-  h1 { font-size: 1.3rem !important; }
-  h2 { font-size: 1.1rem !important; }
-  h3 { font-size: 1rem !important; }
-  h4 { font-size: 0.9rem !important; }
-
-  /* Reduce padding/margin globally */
-  * {
-    padding: calc(var(--spacing-sm, 8px) * 0.7) !important;
-    margin: calc(var(--spacing-sm, 8px) * 0.5) !important;
-  }
-
-  /* Tables fit viewport */
+  /* Transform table into card layout */
   table {
-    font-size: 0.65rem;
-    width: 100% !important;
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
   }
 
-  table th,
-  table td {
-    padding: 0.3rem 0.15rem !important;
-    white-space: normal !important;
-  }
-
-  /* Hide less important columns */
-  table th:nth-child(n+4),
-  table td:nth-child(n+4) {
+  table thead {
     display: none;
   }
 
-  /* Disable horizontal scroll everywhere */
+  table tbody {
+    display: block;
+  }
+
+  table tr {
+    display: block;
+    background: rgba(26, 31, 58, 0.8);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  table td {
+    display: block;
+    text-align: left;
+    padding: 0.5rem 0 !important;
+    border: none;
+    position: relative;
+    padding-left: 40% !important;
+  }
+
+  /* Show column labels before each cell */
+  table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    color: #00D9FF;
+    width: 35%;
+    font-size: 0.75rem;
+  }
+
+  /* Fallback labels if data-label not available */
+  table th {
+    display: none;
+  }
+
+  /* Make text readable */
+  table {
+    font-size: 0.85rem;
+  }
+
+  /* Disable overflow on containers */
   .table-container,
   div[style*="overflowX"],
   div[style*="overflow-x"] {
@@ -190,9 +207,7 @@ div[style*="overflow-x: auto"],
     width: 100% !important;
   }
 
-  /* All content fits viewport */
   .content {
-    max-width: 100vw !important;
     overflow-x: hidden !important;
   }
 }
