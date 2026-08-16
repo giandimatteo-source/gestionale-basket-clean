@@ -26,13 +26,25 @@ function AppContent() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if running in PWA standalone mode
+    const isStandalone = window.navigator.standalone === true ||
+                         window.matchMedia('(display-mode: standalone)').matches;
+
+    if (isStandalone) {
+      // Auto logout when PWA is opened
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/login');
+      return;
+    }
+
     // Import useToast hook to use toast
     const initializeCallbacks = async () => {
       const { useToast } = await import('./context/ToastContext.jsx');
       // This will be set in LayoutWrapper
     };
     initializeCallbacks();
-  }, []);
+  }, [navigate]);
 
   return (
     <>
