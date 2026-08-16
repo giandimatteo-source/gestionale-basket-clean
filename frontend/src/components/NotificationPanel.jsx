@@ -87,8 +87,10 @@ export default function NotificationPanel({ isOpen, onClose }) {
   };
 
   return (
-    <div className={`notification-panel ${isOpen ? 'open' : ''}`}>
-      <div className="notification-header">
+    <>
+      {isOpen && <div className="notification-overlay" onClick={onClose} />}
+      <div className={`notification-panel ${isOpen ? 'open' : ''}`}>
+        <div className="notification-header">
         <h2>Notifications</h2>
         <button className="close-btn" onClick={onClose}>✕</button>
       </div>
@@ -145,5 +147,6 @@ export default function NotificationPanel({ isOpen, onClose }) {
         )}
       </div>
     </div>
+    </>
   );
 }
