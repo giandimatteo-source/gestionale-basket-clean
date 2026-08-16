@@ -4,6 +4,8 @@ import { useUserRole } from '../hooks/useUserRole';
 import { useToast } from '../context/ToastContext';
 import { setToastCallback, setNavigateCallback } from '../utils/apiClient';
 import { Menu, X, Home, Users, Grid, Calendar, Dumbbell, BookOpen, Crosshair, Settings, LogOut, User, Shield } from 'lucide-react';
+import NotificationBell from './NotificationBell';
+import NotificationPanel from './NotificationPanel';
 import GeasLogo from '../assets/Logo-GEAS-2.png';
 import '../styles/Layout.css';
 
@@ -22,6 +24,7 @@ const navigationItems = [
 
 export default function LayoutWrapper() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [notificationPanelOpen, setNotificationPanelOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isAdmin } = useUserRole();
@@ -141,12 +144,15 @@ export default function LayoutWrapper() {
             <h1 className="page-title">GEAS Basket</h1>
           </div>
           <div className="header-right">
+            <NotificationBell onClick={() => setNotificationPanelOpen(!notificationPanelOpen)} />
             <div className="live-indicator">
               <span className="live-dot"></span>
               <span className="live-text">Live</span>
             </div>
           </div>
         </header>
+
+        <NotificationPanel isOpen={notificationPanelOpen} onClose={() => setNotificationPanelOpen(false)} />
 
         {/* Content - Outlet renders the page component */}
         <main className="content">

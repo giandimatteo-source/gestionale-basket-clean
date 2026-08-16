@@ -26,6 +26,7 @@ model User {
   trainingSessions TrainingSession[]
   scoutingReports ScoutingReport[]
   scoutingNotes  ScoutingNote[]
+  notifications Notification[]
 
   @@index([email])
   @@index([googleId])
@@ -568,4 +569,21 @@ model OrganizationSettings {
 
   organizationId String  @unique
   organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+}
+
+// ============= NOTIFICATIONS =============
+model Notification {
+  id            String   @id @default(cuid())
+  title         String
+  message       String
+  type          String   @default("INFO") // INFO, SUCCESS, WARNING, ERROR
+  read          Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
 }

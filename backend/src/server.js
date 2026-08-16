@@ -21,6 +21,7 @@ import scoutingRoutes from './routes/scouting.js';
 import scoutingSectionsRoutes from './routes/scoutingSections.js';
 import shootingStatsRoutes from './routes/shootingStats.js';
 import usersRoutes from './routes/users.js';
+import notificationsRoutes from './routes/notifications.js';
 
 // Middleware imports
 import { verifyToken } from './middleware/auth.js';
@@ -115,6 +116,9 @@ app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
 
 // Users routes (admin only)
 app.use('/api/users', usersRoutes);
+
+// Notifications routes (require authentication)
+app.use('/api/notifications', verifyToken, notificationsRoutes);
 
 // ============= FRONTEND & SPA ROUTING =============
 

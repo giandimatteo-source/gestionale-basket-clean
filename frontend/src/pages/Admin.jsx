@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Shield } from 'lucide-react';
 import { useUserRole } from '../hooks/useUserRole';
+import AdminNotifications from '../components/AdminNotifications';
 
 export default function Admin() {
   const { isAdmin } = useUserRole();
@@ -8,6 +9,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [activeTab, setActiveTab] = useState('users');
 
   // Load users on mount
   useEffect(() => {
@@ -104,22 +106,57 @@ export default function Admin() {
         <h1 style={{ fontSize: '2rem', fontWeight: '700', color: '#f1f5f9', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Shield size={32} /> Admin Panel
         </h1>
-        <p style={{ color: '#cbd5e1' }}>Manage users e assegna ruoli</p>
+        <p style={{ color: '#cbd5e1' }}>Manage users, roles, and notifications</p>
       </div>
 
-      {error && (
-        <div style={{ background: 'rgba(255, 56, 96, 0.1)', border: '1px solid #FF5860', color: '#FF5860', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
-          {error}
-        </div>
-      )}
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid rgba(148, 163, 184, 0.2)' }}>
+        <button
+          onClick={() => setActiveTab('users')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: activeTab === 'users' ? 'rgba(0, 217, 255, 0.2)' : 'transparent',
+            color: activeTab === 'users' ? '#00D9FF' : '#cbd5e1',
+            border: 'none',
+            borderBottom: activeTab === 'users' ? '2px solid #00D9FF' : 'none',
+            cursor: 'pointer',
+            fontWeight: activeTab === 'users' ? '600' : '400',
+            transition: 'all 0.2s',
+          }}
+        >
+          User Management
+        </button>
+        <button
+          onClick={() => setActiveTab('notifications')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: activeTab === 'notifications' ? 'rgba(0, 217, 255, 0.2)' : 'transparent',
+            color: activeTab === 'notifications' ? '#00D9FF' : '#cbd5e1',
+            border: 'none',
+            borderBottom: activeTab === 'notifications' ? '2px solid #00D9FF' : 'none',
+            cursor: 'pointer',
+            fontWeight: activeTab === 'notifications' ? '600' : '400',
+            transition: 'all 0.2s',
+          }}
+        >
+          Notifications
+        </button>
+      </div>
 
-      {success && (
-        <div style={{ background: 'rgba(127, 255, 0, 0.1)', border: '1px solid #7FFF00', color: '#7FFF00', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
-          {success}
-        </div>
-      )}
+      {activeTab === 'users' && (
+        <>
+          {error && (
+            <div style={{ background: 'rgba(255, 56, 96, 0.1)', border: '1px solid #FF5860', color: '#FF5860', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
+              {error}
+            </div>
+          )}
 
-      {loading ? (
+          {success && (
+            <div style={{ background: 'rgba(127, 255, 0, 0.1)', border: '1px solid #7FFF00', color: '#7FFF00', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem' }}>
+              {success}
+            </div>
+          )}
+
+          {loading ? (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#cbd5e1' }}>
           Loading users...
         </div>
@@ -199,6 +236,12 @@ export default function Admin() {
             </div>
           )}
         </div>
+      )}
+        </>
+      )}
+
+      {activeTab === 'notifications' && (
+        <AdminNotifications />
       )}
     </div>
   );

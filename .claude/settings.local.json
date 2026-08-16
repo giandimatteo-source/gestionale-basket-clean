@@ -104,7 +104,10 @@
       "Bash(mv services/trainingsService.js services/practicesService.js)",
       "Bash(mv styles/Trainings.css styles/Practices.css)",
       "Bash(mv controllers/trainingsController.js controllers/practicesController.js)",
-      "Bash(mv routes/trainings.js routes/practices.js)"
+      "Bash(mv routes/trainings.js routes/practices.js)",
+      "Bash(curl -s https://whale-app-rw3dr.ondigitalocean.app/api/health)",
+      "Bash(curl -s http://localhost:5173/api/health)",
+      "Bash(curl -X POST http://localhost:5000/api/auth/create-admin -H 'Content-Type: application/json' -d '{ *)"
     ]
   }
 }
