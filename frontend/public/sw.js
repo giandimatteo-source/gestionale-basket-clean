@@ -19,6 +19,21 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
+// Check for updates periodically
+setInterval(() => {
+  fetch('/index.html?time=' + Date.now())
+    .then(res => res.text())
+    .then(html => {
+      // Notify clients if there's a new version
+      self.clients.matchAll().then(clients => {
+        clients.forEach(client => {
+          client.postMessage({ type: 'SW_UPDATE_AVAILABLE' });
+        });
+      });
+    })
+    .catch(err => console.log('Update check failed:', err));
+}, 60000); // Check every 60 seconds
+
 // Activate event
 self.addEventListener('activate', event => {
   event.waitUntil(
@@ -33,6 +48,13 @@ self.addEventListener('activate', event => {
     })
   );
   self.clients.claim();
+});
+
+// Handle skip waiting message from client
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Fetch event - NETWORK FIRST for APIs, CACHE FIRST for static
