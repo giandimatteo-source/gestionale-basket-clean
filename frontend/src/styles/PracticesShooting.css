@@ -307,10 +307,23 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .stats-table-detail {
-    font-size: 0.7rem;
+  /* Make table containers truly responsive */
+  .players-table-container,
+  .stats-table-detail-container {
+    max-width: 100vw;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
   }
 
+  .players-table,
+  .stats-table-detail {
+    font-size: 0.7rem;
+    min-width: 500px;
+  }
+
+  .players-table th,
+  .players-table td,
   .stats-table-detail th,
   .stats-table-detail td {
     padding: 0.5rem 0.25rem;

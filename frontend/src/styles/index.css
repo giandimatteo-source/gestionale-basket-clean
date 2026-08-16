@@ -102,10 +102,20 @@ code {
 
 /* ===== TABLE RESPONSIVITY ===== */
 
+/* Base table wrapper - must be scrollable on small screens */
+div[style*="overflowX: 'auto'"],
+div[style*="overflow-x: auto"],
+.table-wrapper,
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Tablet and below - wrap tables in scrollable container */
 @media (max-width: 1024px) {
   table {
     font-size: 0.9rem;
+    min-width: 600px;
   }
 
   table th,
@@ -119,12 +129,18 @@ code {
     -webkit-overflow-scrolling: touch;
     max-width: calc(100vw - 40px);
   }
+
+  div[style*="overflowX: 'auto'"],
+  div[style*="overflow-x: auto"] {
+    max-width: calc(100vw - 40px);
+  }
 }
 
 /* Mobile - optimize table for small screens */
 @media (max-width: 768px) {
   table {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    min-width: 500px;
   }
 
   table th,
@@ -132,16 +148,32 @@ code {
     padding: 0.5rem 0.25rem;
   }
 
-  /* Hide non-essential columns */
-  table th:nth-child(n+4),
-  table td:nth-child(n+4) {
-    display: none;
+  /* Reduce padding in table cells */
+  table th {
+    font-size: 0.7rem;
+    font-weight: 600;
   }
 
   /* Ensure wrapper doesn't exceed viewport */
   .table-container {
     max-width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  div[style*="overflowX: 'auto'"],
+  div[style*="overflow-x: auto"] {
+    max-width: 100vw;
+    margin-left: calc(-1 * var(--spacing-lg, 16px));
+    margin-right: calc(-1 * var(--spacing-lg, 16px));
+    padding: 0 var(--spacing-md, 8px);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Make sure tables inside overflow containers stay scrollable */
+  div[style*="overflowX: 'auto'"] table,
+  div[style*="overflow-x: auto"] table {
+    min-width: 550px;
   }
 }
 
@@ -179,13 +211,33 @@ code {
 
 /* ===== MODAL RESPONSIVITY ===== */
 @media (max-width: 768px) {
-  [style*="position: fixed"][style*="inset: 0"] {
-    padding: var(--spacing-md) !important;
+  /* Modal backdrop - full screen */
+  div[style*="position: fixed"][style*="inset: 0"] {
+    padding: var(--spacing-sm) !important;
   }
 
-  [style*="maxWidth: "],
-  [style*="max-width"] {
+  /* Modal content - responsive width */
+  div[style*="position: fixed"][style*="inset: 0"] > div {
     width: 95vw !important;
     max-width: 95vw !important;
+    max-height: 95vh !important;
+    margin: auto !important;
+  }
+}
+
+/* ===== INPUT/SELECT RESPONSIVITY ===== */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  input[type="time"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 44px !important;
+    padding: 0.75rem !important;
   }
 }
