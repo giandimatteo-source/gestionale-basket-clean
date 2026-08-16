@@ -10,7 +10,7 @@ export default function AdminNotifications() {
   const [type, setType] = useState('INFO');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  const { useToast: addToast } = useToast();
+  const { addToast } = useToast();
 
   useEffect(() => {
     fetchUsers();

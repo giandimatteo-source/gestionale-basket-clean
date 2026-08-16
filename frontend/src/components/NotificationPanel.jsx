@@ -7,7 +7,7 @@ export default function NotificationPanel({ isOpen, onClose }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { useToast: addToast } = useToast();
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (isOpen) {
