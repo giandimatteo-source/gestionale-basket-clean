@@ -241,18 +241,18 @@ export default function Staff() {
       )}
 
       {/* Filters */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 200px', gap: '1rem', marginBottom: '2rem' }}>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
         <input
           type="text"
           placeholder="Search by name or email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: '0.75rem', background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.2)', color: '#f1f5f9', borderRadius: '0.5rem', fontSize: '1rem' }}
+          style={{ flex: '1 1 auto', minWidth: '250px', padding: '0.75rem', background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.2)', color: '#f1f5f9', borderRadius: '0.5rem', fontSize: '1rem' }}
         />
         <select
           value={positionFilter}
           onChange={(e) => setPositionFilter(e.target.value)}
-          style={{ padding: '0.75rem', background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.2)', color: '#f1f5f9', borderRadius: '0.5rem', fontSize: '1rem' }}
+          style={{ flex: '0 1 200px', minWidth: '150px', padding: '0.75rem', background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.2)', color: '#f1f5f9', borderRadius: '0.5rem', fontSize: '1rem' }}
         >
           <option value="">All Positions</option>
           {positions.map(pos => (

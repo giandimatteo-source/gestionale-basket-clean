@@ -156,3 +156,36 @@ code {
     width: 100%;
   }
 }
+
+/* ===== RESPONSIVE GRID LAYOUTS ===== */
+@media (max-width: 768px) {
+  /* Make all grid layouts stack on tablet/mobile */
+  [style*="display: grid"],
+  [style*="display:grid"] {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  /* Force single column for filter/control groups */
+  [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Button groups should wrap */
+  [style*="display: flex"][style*="gap"] {
+    flex-wrap: wrap;
+  }
+}
+
+/* ===== MODAL RESPONSIVITY ===== */
+@media (max-width: 768px) {
+  [style*="position: fixed"][style*="inset: 0"] {
+    padding: var(--spacing-md) !important;
+  }
+
+  [style*="maxWidth: "],
+  [style*="max-width"] {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
