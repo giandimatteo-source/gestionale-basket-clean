@@ -191,9 +191,9 @@ div[style*="overflow-x: auto"],
 
 /* ===== RESPONSIVE GRID LAYOUTS ===== */
 @media (max-width: 768px) {
-  /* Make all grid layouts stack on tablet/mobile */
-  [style*="display: grid"],
-  [style*="display:grid"] {
+  /* Make all grid layouts stack on tablet/mobile - but NOT tables */
+  [style*="display: grid"]:not(table),
+  [style*="display:grid"]:not(table) {
     display: flex !important;
     flex-direction: column;
   }
@@ -201,11 +201,6 @@ div[style*="overflow-x: auto"],
   /* Force single column for filter/control groups */
   [style*="gridTemplateColumns"] {
     grid-template-columns: 1fr !important;
-  }
-
-  /* Button groups should wrap */
-  [style*="display: flex"][style*="gap"] {
-    flex-wrap: wrap;
   }
 }
 
