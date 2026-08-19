@@ -397,15 +397,23 @@ export default function Staff() {
               {/* Position */}
               <div>
                 <label style={{ display: 'block', color: '#cbd5e1', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: '600' }}>Position</label>
-                <input
-                  type="text"
+                <select
                   name="position"
                   value={formData.position}
                   onChange={handleInputChange}
-                  placeholder="e.g. Head Coach, Fitness Coach"
                   required
                   style={{ width: '100%', padding: '0.75rem', background: 'rgba(0, 217, 255, 0.05)', border: '1px solid rgba(0, 217, 255, 0.2)', color: '#f1f5f9', borderRadius: '0.5rem', fontSize: '1rem' }}
-                />
+                >
+                  <option value="">Select a position...</option>
+                  <option value="Head Coach">Head Coach</option>
+                  <option value="Assistant Coach">Assistant Coach</option>
+                  <option value="Strength&Conditioning">Strength & Conditioning</option>
+                  <option value="Physioterapist">Physioterapist</option>
+                  <option value="Doctor">Doctor</option>
+                  <option value="Sports Director">Sports Director</option>
+                  <option value="Team Manager">Team Manager</option>
+                  <option value="General Manager">General Manager</option>
+                </select>
               </div>
 
               {/* Phone */}
