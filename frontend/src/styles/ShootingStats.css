@@ -86,6 +86,16 @@
   font-size: 1.125rem;
 }
 
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-top: 2rem;
+  border: 1px solid rgba(0, 217, 255, 0.1);
+  border-radius: 0.75rem;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Remove number input spinners */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -95,6 +105,24 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+@media (max-width: 1024px) {
+  .table-container {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: 0.75rem 0.5rem !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -112,7 +140,18 @@ input[type="number"] {
     overflow-x: auto;
   }
 
+  .shooting-chart {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    border-radius: 0;
+  }
+
   table {
-    min-width: 600px;
+    min-width: 1200px;
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 0.5rem 0.35rem !important;
   }
 }

@@ -335,8 +335,8 @@ export default function PracticesShootingStatsPage() {
       )}
 
       {/* Table */}
-      <div style={{ overflowX: 'auto', marginTop: '2rem', marginRight: 0, marginLeft: 0, borderRadius: '0.75rem', border: '1px solid rgba(0, 217, 255, 0.1)' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', color: '#f1f5f9', minWidth: '800px' }}>
+      <div className="table-container">
+        <table style={{ width: '100%', borderCollapse: 'collapse', color: '#f1f5f9', minWidth: '1000px' }}>
           <thead>
             <tr style={{ borderBottom: '2px solid rgba(0, 217, 255, 0.2)' }}>
               <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF' }}>Date</th>
