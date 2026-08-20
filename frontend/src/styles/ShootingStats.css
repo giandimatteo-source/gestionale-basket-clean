@@ -86,6 +86,17 @@
   font-size: 1.125rem;
 }
 
+/* Remove number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @media (max-width: 768px) {
   .shooting-header {
     flex-direction: column;
@@ -94,5 +105,14 @@
 
   .btn-add-stat {
     width: 100%;
+  }
+
+  .shooting-form {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
   }
 }

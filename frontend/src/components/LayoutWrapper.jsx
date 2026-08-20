@@ -15,7 +15,7 @@ const navigationItems = [
   { label: 'Roster', path: '/roster', icon: Grid },
   { label: 'Calendar', path: '/calendar', icon: Calendar },
   { label: 'Practices', path: '/practices', icon: Dumbbell },
-  { label: 'Practices\' Shooting', path: '/practices-shooting', icon: Crosshair },
+  { label: 'Practices Shooting Stats', path: '/practices-shooting', icon: Crosshair },
   { label: 'Playbook', path: '/playbook', icon: BookOpen },
   { label: 'Scouting', path: '/scouting', icon: Crosshair },
   { label: 'My Profile', path: '/my-profile', icon: User },

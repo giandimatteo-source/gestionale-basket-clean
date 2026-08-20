@@ -142,6 +142,14 @@ export default function PracticesShootingStatsPage() {
     ),
   }));
 
+  const positionStats = {
+    'LH COR': stats.map(stat => calculatePercentage(stat.lhCorM, stat.lhCorA)),
+    'LH WG': stats.map(stat => calculatePercentage(stat.lhWgM, stat.lhWgA)),
+    'TOP': stats.map(stat => calculatePercentage(stat.topM, stat.topA)),
+    'RT WG': stats.map(stat => calculatePercentage(stat.rtWgM, stat.rtWgA)),
+    'RT COR': stats.map(stat => calculatePercentage(stat.rtCorM, stat.rtCorA)),
+  };
+
   return (
     <div className="page-container">
       <div className="shooting-header">
@@ -248,33 +256,87 @@ export default function PracticesShootingStatsPage() {
 
       {/* Chart */}
       {chartData.length > 0 && (
-        <div className="shooting-chart">
-          <h3>📈 Daily Stats Trend</h3>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.25rem', height: '200px', padding: '1rem' }}>
-            {chartData.map((d, i) => (
-              <div
-                key={i}
-                style={{
-                  flex: 1,
-                  height: `${Math.max(10, d.percentage * 2)}px`,
-                  background: `linear-gradient(135deg, #00D9FF, #7FFF00)`,
-                  borderRadius: '4px 4px 0 0',
-                  position: 'relative',
-                }}
-                title={`${d.date}: ${d.percentage}%`}
-              />
-            ))}
+        <>
+          <div className="shooting-chart">
+            <h3>📈 Daily Stats Trend</h3>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.25rem', height: '200px', padding: '1rem', overflowX: 'auto' }}>
+              {chartData.map((d, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    minWidth: '30px',
+                    height: `${Math.max(10, d.percentage * 2)}px`,
+                    background: `linear-gradient(135deg, #00D9FF, #7FFF00)`,
+                    borderRadius: '4px 4px 0 0',
+                    position: 'relative',
+                  }}
+                  title={`${d.date}: ${d.percentage}%`}
+                />
+              ))}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#cbd5e1', fontSize: '0.75rem', marginTop: '0.5rem' }}>
+              <span>{chartData[0]?.date}</span>
+              <span>{chartData[chartData.length - 1]?.date}</span>
+            </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', color: '#cbd5e1', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-            <span>{chartData[0]?.date}</span>
-            <span>{chartData[chartData.length - 1]?.date}</span>
+
+          <div className="shooting-chart">
+            <h3>🎯 Position Performance</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', padding: '1rem' }}>
+              {Object.entries(positionStats).map(([position, percentages]) => {
+                const avgPercentage = percentages.filter(p => p > 0).reduce((a, b) => a + parseFloat(b), 0) / percentages.filter(p => p > 0).length;
+                const maxPercentage = Math.max(...percentages.filter(p => p > 0));
+                const minPercentage = Math.min(...percentages.filter(p => p > 0));
+
+                return (
+                  <div key={position} style={{
+                    background: 'rgba(0, 217, 255, 0.05)',
+                    border: '1px solid rgba(0, 217, 255, 0.2)',
+                    borderRadius: '0.5rem',
+                    padding: '1rem',
+                  }}>
+                    <div style={{ color: '#00D9FF', fontWeight: '600', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
+                      {position}
+                    </div>
+                    <div style={{
+                      background: 'rgba(0, 0, 0, 0.2)',
+                      borderRadius: '0.35rem',
+                      padding: '0.5rem',
+                      marginBottom: '0.5rem',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'flex-end',
+                      overflow: 'hidden',
+                    }}>
+                      {percentages.map((p, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            flex: 1,
+                            height: `${Math.max(5, p * 0.4)}px`,
+                            background: p > 0 ? `hsl(${(parseFloat(p) * 1.2)}, 100%, 50%)` : 'rgba(127, 255, 0, 0.2)',
+                            marginRight: i < percentages.length - 1 ? '2px' : 0,
+                            borderRadius: '2px',
+                          }}
+                          title={`${p}%`}
+                        />
+                      ))}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', textAlign: 'center' }}>
+                      Avg: <span style={{ color: '#7FFF00', fontWeight: '600' }}>{avgPercentage.toFixed(1)}%</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Table */}
-      <div style={{ overflowX: 'auto', marginTop: '2rem' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', color: '#f1f5f9' }}>
+      <div style={{ overflowX: 'auto', marginTop: '2rem', marginRight: 0, marginLeft: 0, borderRadius: '0.75rem', border: '1px solid rgba(0, 217, 255, 0.1)' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', color: '#f1f5f9', minWidth: '800px' }}>
           <thead>
             <tr style={{ borderBottom: '2px solid rgba(0, 217, 255, 0.2)' }}>
               <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF' }}>Date</th>

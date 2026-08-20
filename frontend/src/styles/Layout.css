@@ -140,8 +140,10 @@
 .nav-label {
   transition: opacity var(--transition-base);
   white-space: nowrap;
-  overflow: visible;
-  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .sidebar.closed .nav-label {
