@@ -53,8 +53,7 @@ export default function Dashboard() {
       if (rosterRes.ok) {
         const rosterData = await rosterRes.json();
         const players = rosterData.data || [];
-        const topThree = players.slice(0, 3);
-        setTopPlayers(topThree);
+        setTopPlayers(players);
       }
 
       // Load staff count
