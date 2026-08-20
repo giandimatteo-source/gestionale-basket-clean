@@ -314,23 +314,23 @@ export default function Roster() {
           }}>
             <thead>
               <tr style={{ borderBottom: '2px solid rgba(0, 217, 255, 0.2)' }}>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Nome</th>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>#</th>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Posizione</th>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Altezza</th>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Peso</th>
-                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Nazione</th>
-                <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF', fontWeight: '600' }}>Azioni</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Name</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Jersey</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Position</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Height</th>
+                <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF', fontWeight: '600' }}>Nationality</th>
+                <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF', fontWeight: '600' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredRoster.map(player => (
                 <tr key={player.id} style={{ borderBottom: '1px solid rgba(0, 217, 255, 0.1)' }}>
                   <td style={{ padding: '1rem', color: '#f1f5f9', fontWeight: '600' }}>{player.name}</td>
-                  <td style={{ padding: '1rem', color: '#cbd5e1' }}>{player.number}</td>
+                  <td style={{ padding: '1rem', color: '#cbd5e1' }}>
+                    <span style={{ background: 'rgba(0, 217, 255, 0.2)', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', fontWeight: '600', color: '#00D9FF' }}>#{player.number}</span>
+                  </td>
                   <td style={{ padding: '1rem', color: '#cbd5e1' }}>{player.position}</td>
                   <td style={{ padding: '1rem', color: '#cbd5e1' }}>{player.height ? `${player.height} cm` : '-'}</td>
-                  <td style={{ padding: '1rem', color: '#cbd5e1' }}>{player.weight ? `${player.weight} kg` : '-'}</td>
                   <td style={{ padding: '1rem', color: '#cbd5e1' }}>{player.nationality || '-'}</td>
                   <td style={{ padding: '1rem', textAlign: 'center' }}>
                     <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
