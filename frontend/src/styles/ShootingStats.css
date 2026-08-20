@@ -103,7 +103,7 @@
 /* Force horizontal scroll on all screen sizes */
 .table-container table {
   width: 100% !important;
-  min-width: 1200px !important;
+  min-width: 1600px !important;
 }
 
 /* Remove number input spinners */
@@ -157,7 +157,7 @@ input[type="number"] {
   }
 
   table {
-    min-width: 1200px;
+    min-width: 1600px;
     font-size: 0.8rem;
   }
 
