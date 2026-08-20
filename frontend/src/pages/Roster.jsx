@@ -181,7 +181,7 @@ export default function Roster() {
             }}
             title="Icon View"
           >
-            <Grid3x3 size={18} /> Icona
+            <Grid3x3 size={18} /> Grid
           </button>
           <button
             onClick={() => setViewMode('list')}
@@ -201,7 +201,7 @@ export default function Roster() {
             }}
             title="List View"
           >
-            <List size={18} /> Lista
+            <List size={18} /> List
           </button>
         </div>
       </div>

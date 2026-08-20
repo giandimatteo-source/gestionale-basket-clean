@@ -17,9 +17,9 @@ const localizer = dateFnsLocalizer({
 });
 
 const EVENT_TYPES = {
-  ALLENAMENTO: { label: 'Practice', color: '#00D9FF', bg: 'rgba(0, 217, 255, 0.2)' },
-  RIUNIONE: { label: 'Meeting', color: '#FF6B35', bg: 'rgba(255, 107, 53, 0.2)' },
-  PARTITA: { label: 'Game', color: '#7FFF00', bg: 'rgba(127, 255, 0, 0.2)' },
+  ALLENAMENTO: { label: 'Practice', color: '#3B82F6', bg: 'rgba(59, 130, 246, 0.2)' },
+  RIUNIONE: { label: 'Meeting', color: '#10B981', bg: 'rgba(16, 185, 129, 0.2)' },
+  PARTITA: { label: 'Game', color: '#EF4444', bg: 'rgba(239, 68, 68, 0.2)' },
   TRATTAMENTO: { label: 'Treatment', color: '#FF88CC', bg: 'rgba(255, 136, 204, 0.2)' },
   EVENTO_EXTRA: { label: 'Event', color: '#00FFFF', bg: 'rgba(0, 255, 255, 0.2)' },
 };
