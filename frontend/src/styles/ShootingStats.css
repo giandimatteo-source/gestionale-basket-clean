@@ -86,22 +86,30 @@
   font-size: 1.125rem;
 }
 
+/* Table styling - keep normal padding for inputs to work */
 .table-container {
+  width: 100%;
+  overflow-x: auto;
   margin-top: 2rem;
   border: 1px solid rgba(0, 217, 255, 0.1);
   border-radius: 0.75rem;
-  background: rgba(26, 31, 58, 0.5);
 }
 
-/* Compact table - fits on screen without scroll */
 .table-container table {
   width: 100%;
-  font-size: 0.8rem;
+  border-collapse: collapse;
+  color: #f1f5f9;
 }
 
-.table-container th,
+.table-container th {
+  padding: 1rem;
+  textAlign: 'left';
+  color: #00D9FF;
+  font-size: 0.85rem;
+}
+
 .table-container td {
-  padding: 0.4rem 0.3rem !important;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -116,34 +124,6 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-@media (max-width: 1024px) {
-  .shooting-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .btn-add-stat {
-    width: 100%;
-  }
-
-  .shooting-form {
-    width: 100%;
-  }
-
-  .table-container {
-    margin-top: 1.5rem;
-  }
-
-  .table-container table {
-    font-size: 0.75rem;
-  }
-
-  .table-container th,
-  .table-container td {
-    padding: 0.35rem 0.25rem !important;
-  }
-}
-
 @media (max-width: 768px) {
   .shooting-header {
     flex-direction: column;
@@ -156,19 +136,21 @@ input[type="number"] {
 
   .shooting-form {
     width: 100%;
+    overflow-x: auto;
   }
 
-  .table-container {
-    margin-top: 1.5rem;
+  .shooting-chart {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
     border-radius: 0;
   }
 
   .table-container table {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 
   .table-container th,
   .table-container td {
-    padding: 0.3rem 0.2rem !important;
+    padding: 0.75rem 0.5rem;
   }
 }
