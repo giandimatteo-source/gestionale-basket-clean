@@ -49,8 +49,8 @@ const uploadToSpacesMiddleware = async (req, res, next) => {
 // Middleware for role-based access
 const checkEditPermission = (req, res, next) => {
   const user = req.user;
-  if (!['ADMIN', 'EDITOR'].includes(user?.role)) {
-    return res.status(403).json({ success: false, error: 'Unauthorized' });
+  if (!['ADMIN', 'EDITOR', 'COACH'].includes(user?.role)) {
+    return res.status(403).json({ success: false, error: 'Unauthorized - only ADMIN, EDITOR, or COACH can upload' });
   }
   next();
 };
