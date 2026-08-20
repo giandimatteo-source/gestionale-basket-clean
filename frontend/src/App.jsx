@@ -26,6 +26,13 @@ function AppContent() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && window.location.pathname === '/') {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     // Import useToast hook to use toast
     const initializeCallbacks = async () => {
       const { useToast } = await import('./context/ToastContext.jsx');
