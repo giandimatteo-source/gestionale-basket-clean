@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Plus, X, Clock, MapPin, Users, ChevronLeft, ChevronRight, Grid3x3, List } from 'lucide-react';
+import { Calendar as CalendarIcon, Plus, X, Clock, MapPin, Users, ChevronLeft, ChevronRight, Grid3x3, List, Download } from 'lucide-react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { getEvents, createEvent, updateEvent, deleteEvent } from '../services/calendarService.js';
+import { downloadICS } from '../utils/icsExport.js';
 import '../styles/Calendar.css';
 
 const locales = { 'en-US': enUS };
@@ -71,6 +72,7 @@ export default function CalendarPage() {
     opponent: '',
     participants: [],
     isRecurring: false,
+    reminder: 'none',
   });
 
   const userRole = JSON.parse(localStorage.getItem('user') || '{}').role;
@@ -213,22 +215,30 @@ export default function CalendarPage() {
     <div className="page-container">
       <div className="calendar-header">
         <h1>📅 Calendar</h1>
-        {canEdit && (
+        <div style={{ display: 'flex', gap: '1rem' }}>
           <button
-            className="btn-add-event"
-            onClick={() => {
-              setSelectedEvent(null);
-              setFormData({
-                ...formData,
-                startTime: new Date(),
-                endTime: new Date(new Date().getTime() + 60 * 60 * 1000),
-              });
-              setIsModalOpen(true);
-            }}
+            onClick={() => downloadICS(events, 'geas-basket-calendar.ics')}
+            style={{ background: 'rgba(127, 255, 0, 0.2)', color: '#7FFF00', padding: '0.75rem 1.5rem', borderRadius: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600', cursor: 'pointer', border: '1px solid rgba(127, 255, 0, 0.3)' }}
           >
-            <Plus size={20} /> New Event
+            <Download size={20} /> Export .ics
           </button>
-        )}
+          {canEdit && (
+            <button
+              className="btn-add-event"
+              onClick={() => {
+                setSelectedEvent(null);
+                setFormData({
+                  ...formData,
+                  startTime: new Date(),
+                  endTime: new Date(new Date().getTime() + 60 * 60 * 1000),
+                });
+                setIsModalOpen(true);
+              }}
+            >
+              <Plus size={20} /> New Event
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="calendar-controls">
