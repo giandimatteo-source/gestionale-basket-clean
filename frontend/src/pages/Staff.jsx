@@ -115,12 +115,30 @@ export default function Staff() {
     setIsModalOpen(false);
   };
 
-  // Filtra staff
+  // Ordine fisso delle posizioni
+  const positionOrder = [
+    'General Manager',
+    'Head Coach',
+    'Assistant Coach',
+    'Strength&Conditioning',
+    'Physioterapist',
+    'Doctor',
+    'Sports Director',
+    'Team Manager',
+  ];
+
+  // Filtra e ordina staff
   const filteredStaff = staff.filter(s =>
     (s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
     (!positionFilter || s.position === positionFilter)
-  );
+  ).sort((a, b) => {
+    const indexA = positionOrder.indexOf(a.position);
+    const indexB = positionOrder.indexOf(b.position);
+    const orderA = indexA >= 0 ? indexA : positionOrder.length;
+    const orderB = indexB >= 0 ? indexB : positionOrder.length;
+    return orderA - orderB;
+  });
 
   // Posizioni uniche
   const positions = [...new Set(staff.map(s => s.position))].sort();
