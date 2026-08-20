@@ -297,15 +297,6 @@
 .page-container {
   width: 100%;
   box-sizing: border-box;
-  overflow-x: auto;
-}
-
-@media (min-width: 1025px) {
-  .page-container {
-    max-width: 100%;
-    margin: 0 auto;
-    overflow-x: auto;
-  }
 }
 
 .content::-webkit-scrollbar {

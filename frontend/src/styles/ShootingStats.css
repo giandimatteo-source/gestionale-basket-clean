@@ -87,13 +87,23 @@
 }
 
 .table-container {
-  width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   margin-top: 2rem;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   border: 1px solid rgba(0, 217, 255, 0.1);
-  border-radius: 0.75rem;
+  border-radius: 0;
   -webkit-overflow-scrolling: touch;
+  background: rgba(26, 31, 58, 0.5);
+}
+
+/* Force horizontal scroll on all screen sizes */
+.table-container table {
+  width: 100% !important;
+  min-width: 1200px !important;
 }
 
 /* Remove number input spinners */
