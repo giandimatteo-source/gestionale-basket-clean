@@ -22,7 +22,6 @@ import scoutingSectionsRoutes from './routes/scoutingSections.js';
 import shootingStatsRoutes from './routes/shootingStats.js';
 import usersRoutes from './routes/users.js';
 import notificationsRoutes from './routes/notifications.js';
-import instatRoutes from './routes/instat.js';
 
 // Middleware imports
 import { verifyToken } from './middleware/auth.js';
@@ -114,9 +113,6 @@ app.use('/api/scouting-sections', verifyToken, scoutingSectionsRoutes);
 
 // Shooting Stats routes (require authentication)
 app.use('/api/shooting-stats', verifyToken, shootingStatsRoutes);
-
-// Instat routes (require authentication)
-app.use('/api/instat', verifyToken, instatRoutes);
 
 // Users routes (admin only)
 app.use('/api/users', usersRoutes);
