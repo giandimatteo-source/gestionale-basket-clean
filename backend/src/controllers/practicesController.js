@@ -6,12 +6,18 @@ const prisma = new PrismaClient();
 
 export async function getTrainingSessions(req, res) {
   try {
-    const { page = 1, limit = 20, search, type } = req.query;
+    const { page = 1, limit = 20, search, type, startDate, endDate } = req.query;
     const skip = (page - 1) * limit;
 
     const where = {
       ...(search && { title: { contains: search, mode: 'insensitive' } }),
       ...(type && { type }),
+      ...(startDate || endDate) && {
+        date: {
+          ...(startDate && { gte: new Date(startDate) }),
+          ...(endDate && { lte: new Date(endDate) }),
+        },
+      },
     };
 
     const sessions = await prisma.trainingSession.findMany({
@@ -19,6 +25,8 @@ export async function getTrainingSessions(req, res) {
       include: {
         creator: { select: { name: true } },
         participants: true,
+        feedback: true,
+        clips: true,
       },
       orderBy: { date: 'desc' },
       skip: parseInt(skip),
@@ -54,6 +62,15 @@ export async function getTrainingSessionById(req, res) {
         participants: {
           include: { roster: true },
         },
+        feedback: {
+          orderBy: { createdAt: 'desc' },
+        },
+        clips: {
+          orderBy: { startTime: 'asc' },
+        },
+        playlistItems: {
+          include: { playlist: true },
+        },
       },
     });
 
@@ -70,7 +87,7 @@ export async function getTrainingSessionById(req, res) {
 
 export async function createTrainingSession(req, res) {
   try {
-    const { title, date, duration, type, description, notes, participants, calendarEventId } = req.body;
+    const { title, date, duration, type, description, notes, participants, calendarEventId, videoDuration } = req.body;
     const creatorId = req.user?.id;
 
     if (!title || !date || !creatorId) {
@@ -79,7 +96,7 @@ export async function createTrainingSession(req, res) {
 
     let fileUrl = null;
     if (req.file) {
-      fileUrl = `/uploads/trainings/${req.file.filename}`;
+      fileUrl = req.file.location; // Spaces URL
     }
 
     const session = await prisma.trainingSession.create({
@@ -87,6 +104,7 @@ export async function createTrainingSession(req, res) {
         title,
         date: new Date(date),
         duration: parseInt(duration) || 60,
+        videoDuration: videoDuration ? parseInt(videoDuration) : null,
         type: type || 'General',
         description,
         notes,
@@ -121,26 +139,20 @@ export async function createTrainingSession(req, res) {
 export async function updateTrainingSession(req, res) {
   try {
     const { id } = req.params;
-    const { title, date, duration, type, description, notes, participants } = req.body;
+    const { title, date, duration, type, description, notes, participants, videoDuration } = req.body;
 
     let updateData = {
       title,
       date: date ? new Date(date) : undefined,
       duration: duration ? parseInt(duration) : undefined,
+      videoDuration: videoDuration ? parseInt(videoDuration) : undefined,
       type,
       description,
       notes,
     };
 
     if (req.file) {
-      const oldSession = await prisma.trainingSession.findUnique({ where: { id } });
-      if (oldSession?.fileUrl) {
-        const oldPath = path.join(process.cwd(), 'uploads', oldSession.fileUrl.replace('/uploads/', ''));
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
-        }
-      }
-      updateData.fileUrl = `/uploads/trainings/${req.file.filename}`;
+      updateData.fileUrl = req.file.location; // Spaces URL
     }
 
     const session = await prisma.trainingSession.update({

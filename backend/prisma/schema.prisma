@@ -24,6 +24,7 @@ model User {
 
   staff         Staff?
   trainingSessions TrainingSession[]
+  playlists     TrainingPlaylist[] @relation("PlaylistCreator")
   scoutingReports ScoutingReport[]
   scoutingNotes  ScoutingNote[]
   notifications Notification[]
@@ -272,7 +273,8 @@ model TrainingSession {
   id            String   @id @default(cuid())
   title         String
   date          DateTime @default(now())
-  duration      Int      // minutes
+  duration      Int      // minutes (session duration)
+  videoDuration Int?     // video duration in seconds
   type          String   // Offensive, Defensive, Conditioning, etc.
   description   String?
   exercises     String?  // JSON array of exercises
@@ -286,12 +288,81 @@ model TrainingSession {
   creator       User     @relation(fields: [creatorId], references: [id])
 
   participants  TrainingSessionPlayer[]
+  feedback      TrainingFeedback[]
+  clips         TrainingVideoClip[]
+  playlistItems TrainingPlaylistItem[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@index([date])
   @@index([creatorId])
+}
+
+model TrainingFeedback {
+  id            String   @id @default(cuid())
+  content       String
+  type          String   @default("note") // note, feedback, improvement, highlight
+  author        String   // user name
+
+  trainingId    String
+  training      TrainingSession @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([trainingId])
+  @@index([createdAt])
+}
+
+model TrainingVideoClip {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  startTime     Int      // seconds
+  endTime       Int      // seconds
+  tags          String?  // JSON array of tags
+
+  trainingId    String
+  training      TrainingSession @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([trainingId])
+}
+
+model TrainingPlaylist {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  theme         String   // Offensive, Defensive, Conditioning, etc.
+
+  items         TrainingPlaylistItem[]
+
+  creatorId     String
+  creator       User     @relation("PlaylistCreator", fields: [creatorId], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([creatorId])
+  @@index([theme])
+}
+
+model TrainingPlaylistItem {
+  id            String   @id @default(cuid())
+  order         Int      @default(0)
+
+  playlistId    String
+  playlist      TrainingPlaylist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  trainingId    String
+  training      TrainingSession @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, trainingId])
+  @@index([playlistId])
+  @@index([trainingId])
 }
 
 model TrainingSessionPlayer {

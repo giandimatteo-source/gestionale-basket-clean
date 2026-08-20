@@ -16,6 +16,9 @@ import staffRoutes from './routes/staff.js';
 import rosterRoutes from './routes/roster.js';
 import calendarRoutes from './routes/calendar.js';
 import practicesRoutes from './routes/practices.js';
+import trainingFeedbackRoutes from './routes/trainingFeedback.js';
+import trainingClipsRoutes from './routes/trainingClips.js';
+import trainingPlaylistsRoutes from './routes/trainingPlaylists.js';
 import playbookRoutes from './routes/playbook.js';
 import scoutingRoutes from './routes/scouting.js';
 import scoutingSectionsRoutes from './routes/scoutingSections.js';
@@ -101,6 +104,15 @@ app.use('/api/calendar', verifyToken, calendarRoutes);
 
 // Practices routes (require authentication)
 app.use('/api/practices', verifyToken, practicesRoutes);
+
+// Training Feedback routes (require authentication)
+app.use('/api/training-feedback', verifyToken, trainingFeedbackRoutes);
+
+// Training Clips routes (require authentication)
+app.use('/api/training-clips', verifyToken, trainingClipsRoutes);
+
+// Training Playlists routes (require authentication)
+app.use('/api/training-playlists', verifyToken, trainingPlaylistsRoutes);
 
 // Playbook routes (require authentication)
 app.use('/api/playbook', verifyToken, playbookRoutes);
