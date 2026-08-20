@@ -18,11 +18,11 @@ const localizer = dateFnsLocalizer({
 });
 
 const EVENT_TYPES = {
-  ALLENAMENTO: { label: 'Practice', color: '#3B82F6', bg: 'rgba(59, 130, 246, 0.2)' },
-  RIUNIONE: { label: 'Meeting', color: '#10B981', bg: 'rgba(16, 185, 129, 0.2)' },
-  PARTITA: { label: 'Game', color: '#EF4444', bg: 'rgba(239, 68, 68, 0.2)' },
-  TRATTAMENTO: { label: 'Treatment', color: '#FF88CC', bg: 'rgba(255, 136, 204, 0.2)' },
-  EVENTO_EXTRA: { label: 'Event', color: '#00FFFF', bg: 'rgba(0, 255, 255, 0.2)' },
+  PARTITA: { label: 'Game', color: '#EF4444', bg: 'rgba(239, 68, 68, 0.15)' },
+  ALLENAMENTO: { label: 'Practice', color: '#3B82F6', bg: 'rgba(59, 130, 246, 0.15)' },
+  RIUNIONE: { label: 'Meeting', color: '#10B981', bg: 'rgba(16, 185, 129, 0.15)' },
+  TRATTAMENTO: { label: 'Treatment', color: '#A855F7', bg: 'rgba(168, 85, 247, 0.15)' },
+  EVENTO_EXTRA: { label: 'Event', color: '#F59E0B', bg: 'rgba(245, 158, 11, 0.15)' },
 };
 
 const EventComponent = ({ event }) => {
@@ -77,6 +77,21 @@ export default function CalendarPage() {
 
   const userRole = JSON.parse(localStorage.getItem('user') || '{}').role;
   const canEdit = ['ADMIN', 'EDITOR'].includes(userRole);
+
+  // Get next 7 days with events
+  const getUpcomingDays = () => {
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      const dayEvents = events.filter(e => {
+        const eventDate = new Date(e.start);
+        return eventDate.toDateString() === date.toDateString();
+      });
+      days.push({ date, events: dayEvents });
+    }
+    return days;
+  };
 
   useEffect(() => {
     loadEvents();
@@ -436,8 +451,40 @@ export default function CalendarPage() {
           </div>
         </div>
       ) : (
-        <div className="calendar-container">
-          <Calendar
+        <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
+          {/* Upcoming 7 Days Sidebar */}
+          <div style={{ background: 'linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(45, 53, 97, 0.6))', border: '1px solid rgba(0, 217, 255, 0.1)', borderRadius: '0.75rem', padding: '1.5rem', minWidth: '280px', maxHeight: '75vh', overflowY: 'auto' }}>
+            <h3 style={{ color: '#f1f5f9', marginTop: 0, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              📅 Next 7 Days
+            </h3>
+            {getUpcomingDays().map((day, idx) => (
+              <div key={idx} style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: idx < 6 ? '1px solid rgba(0, 217, 255, 0.1)' : 'none' }}>
+                <div style={{ color: '#00D9FF', fontWeight: '600', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
+                  {format(day.date, 'EEE, MMM d')}
+                </div>
+                {day.events.length === 0 ? (
+                  <div style={{ color: '#7FFF00', fontSize: '0.85rem' }}>No events</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {day.events.map(event => {
+                      const typeInfo = EVENT_TYPES[event.type] || EVENT_TYPES.ALLENAMENTO;
+                      return (
+                        <div key={event.id} onClick={() => handleSelectEvent(event)} style={{ background: typeInfo.bg, border: `1px solid ${typeInfo.color}33`, borderLeft: `3px solid ${typeInfo.color}`, borderRadius: '0.35rem', padding: '0.5rem 0.75rem', cursor: 'pointer', fontSize: '0.85rem', color: '#f1f5f9', transition: 'all 200ms' }} onMouseEnter={e => e.currentTarget.style.background = typeInfo.bg.replace('0.15', '0.25')} onMouseLeave={e => e.currentTarget.style.background = typeInfo.bg}>
+                          <div style={{ fontWeight: '600', color: typeInfo.color }}>{typeInfo.label}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: '0.25rem' }}>{event.title}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#cbd5e1' }}>{format(event.start, 'HH:mm')}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar */}
+          <div className="calendar-container" style={{ flex: 1 }}>
+            <Calendar
             localizer={localizer}
             events={events}
             startAccessor="start"
@@ -468,6 +515,7 @@ export default function CalendarPage() {
               noEventsInRange: 'No events in this range',
             }}
           />
+          </div>
         </div>
       )}
 
@@ -538,6 +586,14 @@ export default function CalendarPage() {
               <div className="form-group">
                 <label>Description</label>
                 <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} placeholder="Event description..." rows={3} />
+              </div>
+              <div className="form-group">
+                <label>Reminder</label>
+                <select value={formData.reminder} onChange={e => setFormData({ ...formData, reminder: e.target.value })}>
+                  <option value="none">No reminder</option>
+                  <option value="1h">1 hour before</option>
+                  <option value="1d">1 day before</option>
+                </select>
               </div>
               <div className="form-group">
                 <label>
