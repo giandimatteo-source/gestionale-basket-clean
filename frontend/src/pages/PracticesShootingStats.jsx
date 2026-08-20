@@ -109,7 +109,7 @@ export default function PracticesShootingStatsPage() {
 
   const calculatePercentage = (made, attempted) => {
     if (attempted === 0) return 0;
-    return ((made / attempted) * 100).toFixed(2);
+    return ((made / attempted) * 100).toFixed(1);
   };
 
   const calculateTotals = () => {
