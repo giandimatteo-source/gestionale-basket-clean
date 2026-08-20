@@ -1,4 +1,4 @@
-const API_URL = '/api/trainings';
+const API_URL = '/api/practices';
 
 const getToken = () => localStorage.getItem('token');
 
