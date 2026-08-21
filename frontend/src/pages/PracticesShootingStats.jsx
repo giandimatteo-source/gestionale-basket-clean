@@ -25,9 +25,11 @@ export default function PracticesShootingStatsPage() {
   const isAdmin = user.role === 'ADMIN';
 
   useEffect(() => {
+    // Pulisci localStorage per evitare dati stantii
+    localStorage.removeItem('shootingStats_' + rosterId);
     loadData();
-    // Ricarica i dati ogni 5 secondi per sincronizzazione real-time
-    const interval = setInterval(loadData, 5000);
+    // Ricarica i dati ogni 3 secondi per sincronizzazione real-time
+    const interval = setInterval(loadData, 3000);
     return () => clearInterval(interval);
   }, [rosterId]);
 
