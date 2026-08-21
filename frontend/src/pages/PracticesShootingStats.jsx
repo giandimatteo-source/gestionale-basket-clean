@@ -97,6 +97,18 @@ export default function PracticesShootingStatsPage() {
     }
   };
 
+  const handleDelete = async (statId) => {
+    if (window.confirm('Eliminare questo record?')) {
+      try {
+        const { deleteShootingStats } = await import('../services/shootingStatsService.js');
+        await deleteShootingStats(statId);
+        await loadData();
+      } catch (error) {
+        setError(`Errore eliminazione: ${error.message}`);
+      }
+    }
+  };
+
   const calculatePercentage = (made, attempted) => {
     if (attempted === 0) return '0.0';
     return ((made / attempted) * 100).toFixed(1);
@@ -246,6 +258,7 @@ export default function PracticesShootingStatsPage() {
               <th>RC</th>
               <th>TOT%</th>
               <th>NOTE</th>
+              {isAdmin && <th>AZIONI</th>}
             </tr>
           </thead>
           <tbody>
@@ -271,6 +284,24 @@ export default function PracticesShootingStatsPage() {
                     <td>{stat.rtCorM}/{stat.rtCorA} {calculatePercentage(stat.rtCorM, stat.rtCorA)}%</td>
                     <td style={{ color: '#7FFF00', fontWeight: 'bold' }}>{totalPercentage}%</td>
                     <td style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>{stat.notes || '-'}</td>
+                    {isAdmin && (
+                      <td>
+                        <button
+                          onClick={() => handleDelete(stat.id)}
+                          style={{
+                            background: '#FF5860',
+                            color: '#fff',
+                            border: 'none',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '0.25rem',
+                            cursor: 'pointer',
+                            fontSize: '0.8rem',
+                          }}
+                        >
+                          ✕ Elimina
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 );
               })
