@@ -1,4 +1,4 @@
-const CACHE_NAME = 'geas-basket-v5';
+const CACHE_NAME = 'geas-basket-v99';
 
 // Files to cache (only static assets)
 const CACHE_URLS = [
