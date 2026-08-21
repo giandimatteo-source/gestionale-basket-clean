@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit, Save, X } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { getRosterById } from '../services/rosterService.js';
 import {
@@ -15,8 +14,8 @@ export default function PracticesShootingStatsPage() {
   const [player, setPlayer] = useState(null);
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
@@ -44,7 +43,9 @@ export default function PracticesShootingStatsPage() {
       ]);
       setPlayer(playerRes.data);
       setStats(statsRes.data || []);
+      setError('');
     } catch (error) {
+      setError('Errore nel caricamento dei dati dal server');
       console.error('Error loading:', error);
     } finally {
       setLoading(false);
@@ -53,15 +54,19 @@ export default function PracticesShootingStatsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccessMessage('');
+
     try {
       const data = { ...formData, rosterId };
-      console.log('Saving data to server:', data);
-      if (editingId) {
-        await updateShootingStats(editingId, data);
-      } else {
-        await createShootingStats(data);
-      }
-      console.log('Data saved successfully to server');
+      console.log('📤 Invio dati al server:', data);
+
+      await createShootingStats(data);
+
+      console.log('✅ Dati salvati con successo al server');
+      setSuccessMessage('✅ Dati salvati con successo!');
+
+      // Resetta il form
       setFormData({
         date: new Date().toISOString().split('T')[0],
         lhCorM: 0, lhCorA: 0,
@@ -71,43 +76,29 @@ export default function PracticesShootingStatsPage() {
         rtCorM: 0, rtCorA: 0,
         notes: '',
       });
-      setEditingId(null);
-      setIsFormOpen(false);
-      loadData();
+
+      // Ricarica SEMPRE i dati dal server
+      await loadData();
+
+      // Nascondi il messaggio di successo dopo 3 secondi
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
-      console.error('❌ Error saving:', error);
-      alert(`❌ Errore nel salvataggio: ${error.message}`);
+      console.error('❌ Errore nel salvataggio:', error);
+      setError(`❌ Errore: ${error.message}`);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this record?')) {
+    if (window.confirm('Cancellare questo record?')) {
       try {
         await deleteShootingStats(id);
-        loadData();
+        await loadData();
+        setSuccessMessage('Record cancellato');
+        setTimeout(() => setSuccessMessage(''), 3000);
       } catch (error) {
-        console.error('Error deleting:', error);
+        setError(`Errore nel cancellamento: ${error.message}`);
       }
     }
-  };
-
-  const handleEdit = (stat) => {
-    setFormData({
-      date: stat.date.split('T')[0],
-      lhCorM: stat.lhCorM || 0,
-      lhCorA: stat.lhCorA || 0,
-      lhWgM: stat.lhWgM || 0,
-      lhWgA: stat.lhWgA || 0,
-      topM: stat.topM || 0,
-      topA: stat.topA || 0,
-      rtWgM: stat.rtWgM || 0,
-      rtWgA: stat.rtWgA || 0,
-      rtCorM: stat.rtCorM || 0,
-      rtCorA: stat.rtCorA || 0,
-      notes: stat.notes || '',
-    });
-    setEditingId(stat.id);
-    setIsFormOpen(true);
   };
 
   const calculatePercentage = (made, attempted) => {
@@ -115,288 +106,203 @@ export default function PracticesShootingStatsPage() {
     return ((made / attempted) * 100).toFixed(1);
   };
 
-  const calculateTotals = () => {
-    const totals = {
-      lhCorM: 0, lhCorA: 0,
-      lhWgM: 0, lhWgA: 0,
-      topM: 0, topA: 0,
-      rtWgM: 0, rtWgA: 0,
-      rtCorM: 0, rtCorA: 0,
-    };
-
-    stats.forEach(stat => {
-      Object.keys(totals).forEach(key => {
-        totals[key] += stat[key] || 0;
-      });
-    });
-
-    return totals;
-  };
-
-  if (loading) return <div className="page-container">Loading...</div>;
-  if (!player) return <div className="page-container">Player not found</div>;
-
-  const totals = calculateTotals();
-  const chartData = stats.map(stat => ({
-    date: new Date(stat.date).toLocaleDateString(),
-    percentage: calculatePercentage(
-      (stat.lhCorM || 0) + (stat.lhWgM || 0) + (stat.topM || 0) + (stat.rtWgM || 0) + (stat.rtCorM || 0),
-      (stat.lhCorA || 0) + (stat.lhWgA || 0) + (stat.topA || 0) + (stat.rtWgA || 0) + (stat.rtCorA || 0)
-    ),
-  }));
-
-  const positionStats = {
-    'LH COR': stats.map(stat => calculatePercentage(stat.lhCorM, stat.lhCorA)),
-    'LH WG': stats.map(stat => calculatePercentage(stat.lhWgM, stat.lhWgA)),
-    'TOP': stats.map(stat => calculatePercentage(stat.topM, stat.topA)),
-    'RT WG': stats.map(stat => calculatePercentage(stat.rtWgM, stat.rtWgA)),
-    'RT COR': stats.map(stat => calculatePercentage(stat.rtCorM, stat.rtCorA)),
-  };
+  if (loading) return <div className="page-container">Caricamento...</div>;
+  if (!player) return <div className="page-container">Giocatore non trovato</div>;
 
   return (
     <div className="page-container">
       <div className="shooting-header">
         <div className="player-info">
-          <h1>🏀 {player.name} - Shooting Stats</h1>
-          <p style={{ color: '#cbd5e1', marginTop: '0.5rem' }}>#{player.number} • {player.position}</p>
+          <h1>{player.name}</h1>
+          <p>{player.position} • #{player.number}</p>
         </div>
-        {canEdit && (
-          <button
-            className="btn-add-stat"
-            onClick={() => {
-              setEditingId(null);
-              setFormData({
-                date: new Date().toISOString().split('T')[0],
-                lhCorM: 0, lhCorA: 0,
-                lhWgM: 0, lhWgA: 0,
-                topM: 0, topA: 0,
-                rtWgM: 0, rtWgA: 0,
-                rtCorM: 0, rtCorA: 0,
-                notes: '',
-              });
-              setIsFormOpen(true);
-            }}
-          >
-            <Plus size={18} /> Add Entry
-          </button>
-        )}
       </div>
 
-      {/* Form */}
-      {isFormOpen && canEdit && (
+      {error && (
+        <div style={{
+          background: 'rgba(255, 88, 96, 0.2)',
+          border: '1px solid #FF5860',
+          color: '#FF5860',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          marginBottom: '1rem',
+        }}>
+          {error}
+        </div>
+      )}
+
+      {successMessage && (
+        <div style={{
+          background: 'rgba(127, 255, 0, 0.2)',
+          border: '1px solid #7FFF00',
+          color: '#7FFF00',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          marginBottom: '1rem',
+        }}>
+          {successMessage}
+        </div>
+      )}
+
+      {canEdit && (
         <form onSubmit={handleSubmit} className="shooting-form">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
+          <h3>Aggiungi statistiche</h3>
+
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Data:</label>
             <input
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               style={{
+                width: '100%',
                 padding: '0.5rem',
+                marginTop: '0.5rem',
                 background: 'rgba(0, 217, 255, 0.05)',
                 border: '1px solid rgba(0, 217, 255, 0.2)',
                 color: '#f1f5f9',
                 borderRadius: '0.35rem',
-                gridColumn: '1 / -1',
               }}
             />
-            {['lhCor', 'lhWg', 'top', 'rtWg', 'rtCor'].map(zone => (
-              <div key={zone} style={{ display: 'flex', gap: '0.5rem', minWidth: '100px' }}>
-                <input
-                  type="number"
-                  min="0"
-                  placeholder={`${zone} M`}
-                  value={formData[`${zone}M`]}
-                  onChange={(e) => setFormData({ ...formData, [`${zone}M`]: parseInt(e.target.value) || 0 })}
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    background: 'rgba(0, 217, 255, 0.05)',
-                    border: '1px solid rgba(0, 217, 255, 0.2)',
-                    color: '#f1f5f9',
-                    borderRadius: '0.35rem',
-                  }}
-                />
-                <input
-                  type="number"
-                  min="0"
-                  placeholder={`${zone} A`}
-                  value={formData[`${zone}A`]}
-                  onChange={(e) => setFormData({ ...formData, [`${zone}A`]: parseInt(e.target.value) || 0 })}
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    background: 'rgba(0, 217, 255, 0.05)',
-                    border: '1px solid rgba(0, 217, 255, 0.2)',
-                    color: '#f1f5f9',
-                    borderRadius: '0.35rem',
-                  }}
-                />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0.5rem', marginBottom: '1rem' }}>
+            {[
+              { key: 'lhCor', label: 'LEFT CORNER' },
+              { key: 'lhWg', label: 'LEFT WING' },
+              { key: 'top', label: 'TOP' },
+              { key: 'rtWg', label: 'RIGHT WING' },
+              { key: 'rtCor', label: 'RIGHT CORNER' },
+            ].map(zone => (
+              <div key={zone.key}>
+                <label style={{ fontSize: '0.75rem', color: '#cbd5e1' }}>{zone.label}</label>
+                <div style={{ display: 'flex', gap: '0.25rem', marginTop: '0.25rem' }}>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="M"
+                    value={formData[`${zone.key}M`]}
+                    onChange={(e) => setFormData({ ...formData, [`${zone.key}M`]: parseInt(e.target.value) || 0 })}
+                    style={{
+                      flex: 1,
+                      padding: '0.5rem',
+                      background: 'rgba(0, 217, 255, 0.05)',
+                      border: '1px solid rgba(0, 217, 255, 0.2)',
+                      color: '#f1f5f9',
+                      borderRadius: '0.25rem',
+                      fontSize: '0.9rem',
+                    }}
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="A"
+                    value={formData[`${zone.key}A`]}
+                    onChange={(e) => setFormData({ ...formData, [`${zone.key}A`]: parseInt(e.target.value) || 0 })}
+                    style={{
+                      flex: 1,
+                      padding: '0.5rem',
+                      background: 'rgba(0, 217, 255, 0.05)',
+                      border: '1px solid rgba(0, 217, 255, 0.2)',
+                      color: '#f1f5f9',
+                      borderRadius: '0.25rem',
+                      fontSize: '0.9rem',
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
+
           <div style={{ marginBottom: '1rem' }}>
+            <label>Note:</label>
             <textarea
-              placeholder="Notes"
+              placeholder="Note (opzionale)"
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               style={{
                 width: '100%',
-                padding: '0.75rem',
+                padding: '0.5rem',
+                marginTop: '0.5rem',
                 background: 'rgba(0, 217, 255, 0.05)',
                 border: '1px solid rgba(0, 217, 255, 0.2)',
                 color: '#f1f5f9',
                 borderRadius: '0.35rem',
-                minHeight: '80px',
+                minHeight: '60px',
+                fontSize: '0.9rem',
               }}
             />
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <button type="submit" className="btn-save"><Save size={16} /> Save</button>
-            <button type="button" className="btn-cancel" onClick={() => setIsFormOpen(false)}><X size={16} /> Cancel</button>
-          </div>
+
+          <button
+            type="submit"
+            className="btn-add-stat"
+            style={{ width: '100%' }}
+          >
+            ✓ Salva sul server
+          </button>
         </form>
       )}
 
-      {/* Chart */}
-      {chartData.length > 0 && (
-        <>
-          <div className="shooting-chart">
-            <h3>📈 Daily Stats Trend</h3>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '0.25rem', height: '200px', padding: '1rem', overflowX: 'auto' }}>
-              {chartData.map((d, i) => (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    minWidth: '30px',
-                    height: `${Math.max(10, d.percentage * 2)}px`,
-                    background: `linear-gradient(135deg, #00D9FF, #7FFF00)`,
-                    borderRadius: '4px 4px 0 0',
-                    position: 'relative',
-                  }}
-                  title={`${d.date}: ${d.percentage}%`}
-                />
-              ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#cbd5e1', fontSize: '0.75rem', marginTop: '0.5rem' }}>
-              <span>{chartData[0]?.date}</span>
-              <span>{chartData[chartData.length - 1]?.date}</span>
-            </div>
-          </div>
-
-          <div className="shooting-chart">
-            <h3>🎯 Position Performance</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', padding: '1rem' }}>
-              {Object.entries(positionStats).map(([position, percentages]) => {
-                const avgPercentage = percentages.filter(p => p > 0).reduce((a, b) => a + parseFloat(b), 0) / percentages.filter(p => p > 0).length;
-                const maxPercentage = Math.max(...percentages.filter(p => p > 0));
-                const minPercentage = Math.min(...percentages.filter(p => p > 0));
-
-                return (
-                  <div key={position} style={{
-                    background: 'rgba(0, 217, 255, 0.05)',
-                    border: '1px solid rgba(0, 217, 255, 0.2)',
-                    borderRadius: '0.5rem',
-                    padding: '1rem',
-                  }}>
-                    <div style={{ color: '#00D9FF', fontWeight: '600', fontSize: '0.9rem', marginBottom: '0.75rem' }}>
-                      {position}
-                    </div>
-                    <div style={{
-                      background: 'rgba(0, 0, 0, 0.2)',
-                      borderRadius: '0.35rem',
-                      padding: '0.5rem',
-                      marginBottom: '0.5rem',
-                      height: '40px',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      overflow: 'hidden',
-                    }}>
-                      {percentages.map((p, i) => (
-                        <div
-                          key={i}
-                          style={{
-                            flex: 1,
-                            height: `${Math.max(5, p * 0.4)}px`,
-                            background: p > 0 ? `hsl(${(parseFloat(p) * 1.2)}, 100%, 50%)` : 'rgba(127, 255, 0, 0.2)',
-                            marginRight: i < percentages.length - 1 ? '2px' : 0,
-                            borderRadius: '2px',
-                          }}
-                          title={`${p}%`}
-                        />
-                      ))}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', textAlign: 'center' }}>
-                      Avg: <span style={{ color: '#7FFF00', fontWeight: '600' }}>{avgPercentage.toFixed(1)}%</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Table */}
+      {/* Tabella dei dati */}
       <div className="table-container">
-        <table style={{ width: '100%', borderCollapse: 'collapse', color: '#f1f5f9', minWidth: '1000px' }}>
+        <table>
           <thead>
-            <tr style={{ borderBottom: '2px solid rgba(0, 217, 255, 0.2)' }}>
-              <th style={{ padding: '1rem', textAlign: 'left', color: '#00D9FF' }}>Date</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>LH COR</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>LH WG</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>TOP</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>RT WG</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>RT COR</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>TOTAL %</th>
-              <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>Notes</th>
-              {canEdit && <th style={{ padding: '1rem', textAlign: 'center', color: '#00D9FF' }}>Actions</th>}
+            <tr>
+              <th>DATA</th>
+              <th>LC M/A/%</th>
+              <th>LW M/A/%</th>
+              <th>TOP M/A/%</th>
+              <th>RW M/A/%</th>
+              <th>RC M/A/%</th>
+              <th>TOTALE%</th>
+              <th>NOTE</th>
+              {canEdit && <th>AZIONI</th>}
             </tr>
           </thead>
           <tbody>
-            {stats.map(stat => (
-              <tr key={stat.id} style={{ borderBottom: '1px solid rgba(0, 217, 255, 0.1)' }}>
-                <td style={{ padding: '1rem' }}>{new Date(stat.date).toLocaleDateString()}</td>
-                <td style={{ padding: '1rem', textAlign: 'center' }}>{stat.lhCorM}/{stat.lhCorA} ({calculatePercentage(stat.lhCorM, stat.lhCorA)}%)</td>
-                <td style={{ padding: '1rem', textAlign: 'center' }}>{stat.lhWgM}/{stat.lhWgA} ({calculatePercentage(stat.lhWgM, stat.lhWgA)}%)</td>
-                <td style={{ padding: '1rem', textAlign: 'center' }}>{stat.topM}/{stat.topA} ({calculatePercentage(stat.topM, stat.topA)}%)</td>
-                <td style={{ padding: '1rem', textAlign: 'center' }}>{stat.rtWgM}/{stat.rtWgA} ({calculatePercentage(stat.rtWgM, stat.rtWgA)}%)</td>
-                <td style={{ padding: '1rem', textAlign: 'center' }}>{stat.rtCorM}/{stat.rtCorA} ({calculatePercentage(stat.rtCorM, stat.rtCorA)}%)</td>
-                <td style={{ padding: '1rem', textAlign: 'center', color: '#7FFF00', fontWeight: 'bold' }}>
-                  {calculatePercentage(
-                    (stat.lhCorM || 0) + (stat.lhWgM || 0) + (stat.topM || 0) + (stat.rtWgM || 0) + (stat.rtCorM || 0),
-                    (stat.lhCorA || 0) + (stat.lhWgA || 0) + (stat.topA || 0) + (stat.rtWgA || 0) + (stat.rtCorA || 0)
-                  )}%
+            {stats.length === 0 ? (
+              <tr>
+                <td colSpan={canEdit ? 9 : 8} style={{ textAlign: 'center', padding: '2rem', color: '#cbd5e1' }}>
+                  Nessun dato
                 </td>
-                <td style={{ padding: '1rem', fontSize: '0.875rem', color: '#cbd5e1' }}>{stat.notes}</td>
-                {canEdit && (
-                  <td style={{ padding: '1rem', textAlign: 'center' }}>
-                    <button onClick={() => handleEdit(stat)} style={{ background: 'none', border: 'none', color: '#00D9FF', cursor: 'pointer', marginRight: '0.5rem' }}>
-                      <Edit size={16} />
-                    </button>
-                    <button onClick={() => handleDelete(stat.id)} style={{ background: 'none', border: 'none', color: '#FF5860', cursor: 'pointer' }}>
-                      <Trash2 size={16} />
-                    </button>
-                  </td>
-                )}
               </tr>
-            ))}
-            <tr style={{ borderTop: '2px solid rgba(0, 217, 255, 0.2)', fontWeight: 'bold', color: '#7FFF00' }}>
-              <td style={{ padding: '1rem' }}>TOTAL</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>{totals.lhCorM}/{totals.lhCorA}</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>{totals.lhWgM}/{totals.lhWgA}</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>{totals.topM}/{totals.topA}</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>{totals.rtWgM}/{totals.rtWgA}</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>{totals.rtCorM}/{totals.rtCorA}</td>
-              <td style={{ padding: '1rem', textAlign: 'center' }}>
-                {calculatePercentage(
-                  totals.lhCorM + totals.lhWgM + totals.topM + totals.rtWgM + totals.rtCorM,
-                  totals.lhCorA + totals.lhWgA + totals.topA + totals.rtWgA + totals.rtCorA
-                )}%
-              </td>
-              <td></td>
-              {canEdit && <td></td>}
-            </tr>
+            ) : (
+              stats.map((stat) => {
+                const total = (stat.lhCorM || 0) + (stat.lhWgM || 0) + (stat.topM || 0) + (stat.rtWgM || 0) + (stat.rtCorM || 0);
+                const totalAttempts = (stat.lhCorA || 0) + (stat.lhWgA || 0) + (stat.topA || 0) + (stat.rtWgA || 0) + (stat.rtCorA || 0);
+                const totalPercentage = calculatePercentage(total, totalAttempts);
+
+                return (
+                  <tr key={stat.id}>
+                    <td>{new Date(stat.date).toLocaleDateString()}</td>
+                    <td>{stat.lhCorM}/{stat.lhCorA} {calculatePercentage(stat.lhCorM, stat.lhCorA)}%</td>
+                    <td>{stat.lhWgM}/{stat.lhWgA} {calculatePercentage(stat.lhWgM, stat.lhWgA)}%</td>
+                    <td>{stat.topM}/{stat.topA} {calculatePercentage(stat.topM, stat.topA)}%</td>
+                    <td>{stat.rtWgM}/{stat.rtWgA} {calculatePercentage(stat.rtWgM, stat.rtWgA)}%</td>
+                    <td>{stat.rtCorM}/{stat.rtCorA} {calculatePercentage(stat.rtCorM, stat.rtCorA)}%</td>
+                    <td style={{ color: '#7FFF00', fontWeight: 'bold' }}>{totalPercentage}%</td>
+                    <td style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>{stat.notes || '-'}</td>
+                    {canEdit && (
+                      <td>
+                        <button
+                          onClick={() => handleDelete(stat.id)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#FF5860',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                          }}
+                        >
+                          ✕ Elimina
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
