@@ -102,15 +102,18 @@
 }
 
 .table-container th {
-  padding: 1rem;
+  padding: 0.5rem 0.25rem;
   textAlign: 'left';
   color: #00D9FF;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .table-container td {
-  padding: 1rem;
+  padding: 0.5rem 0.25rem;
   text-align: center;
+  font-size: 0.75rem;
 }
 
 /* Remove number input spinners */
@@ -146,11 +149,17 @@ input[type="number"] {
   }
 
   .table-container table {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
   }
 
   .table-container th,
   .table-container td {
-    padding: 0.75rem 0.5rem;
+    padding: 0.3rem 0.15rem;
+  }
+
+  .table-container input[type="number"] {
+    font-size: 0.65rem;
+    padding: 0.25rem;
+    width: 45px;
   }
 }

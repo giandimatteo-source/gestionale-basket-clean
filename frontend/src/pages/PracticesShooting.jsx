@@ -163,7 +163,7 @@ function PlayerStatsDetailView({ player, shotType, stats, setStats, onClose, can
     };
   }, { made: 0, attempted: 0 });
 
-  const allTimePercentage = allTimeStats.attempted > 0 ? ((allTimeStats.made / allTimeStats.attempted) * 100).toFixed(2) : '0';
+  const allTimePercentage = allTimeStats.attempted > 0 ? ((allTimeStats.made / allTimeStats.attempted) * 100).toFixed(1) : '0';
 
   return (
     <div className="player-stats-view">
@@ -227,13 +227,13 @@ function PlayerStatsDetailView({ player, shotType, stats, setStats, onClose, can
             )}
             {dailyStats.map((stat, idx) => {
               const totals = calculateTotals(stat.zones);
-              const totalPercentage = totals.attempted > 0 ? ((totals.made / totals.attempted) * 100).toFixed(2) : '0';
+              const totalPercentage = totals.attempted > 0 ? ((totals.made / totals.attempted) * 100).toFixed(1) : '0';
               return (
                 <tr key={idx}>
                   <td className="date-col">{stat.date}</td>
                   {SHOOTING_ZONES.map(zone => {
                     const zoneData = stat.zones[zone.id];
-                    const percentage = zoneData.attempted > 0 ? ((zoneData.made / zoneData.attempted) * 100).toFixed(2) : '0';
+                    const percentage = zoneData.attempted > 0 ? ((zoneData.made / zoneData.attempted) * 100).toFixed(1) : '0';
                     return (
                       <React.Fragment key={zone.id}>
                         <td className="made-col">{zoneData.made}</td>
@@ -254,7 +254,7 @@ function PlayerStatsDetailView({ player, shotType, stats, setStats, onClose, can
               {SHOOTING_ZONES.map(zone => {
                 const allTimeMade = dailyStats.reduce((sum, day) => sum + (day.zones[zone.id]?.made || 0), 0);
                 const allTimeAttempted = dailyStats.reduce((sum, day) => sum + (day.zones[zone.id]?.attempted || 0), 0);
-                const percentage = allTimeAttempted > 0 ? ((allTimeMade / allTimeAttempted) * 100).toFixed(2) : '0';
+                const percentage = allTimeAttempted > 0 ? ((allTimeMade / allTimeAttempted) * 100).toFixed(1) : '0';
                 return (
                   <React.Fragment key={zone.id}>
                     <td className="made-col"><strong>{allTimeMade}</strong></td>
