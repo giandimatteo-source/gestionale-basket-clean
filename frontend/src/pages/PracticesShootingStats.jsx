@@ -74,6 +74,7 @@ export default function PracticesShootingStatsPage() {
       loadData();
     } catch (error) {
       console.error('Error saving:', error);
+      alert(`❌ Errore nel salvataggio: ${error.message}`);
     }
   };
 
