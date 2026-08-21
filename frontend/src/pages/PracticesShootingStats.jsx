@@ -55,11 +55,13 @@ export default function PracticesShootingStatsPage() {
     e.preventDefault();
     try {
       const data = { ...formData, rosterId };
+      console.log('Saving data to server:', data);
       if (editingId) {
         await updateShootingStats(editingId, data);
       } else {
         await createShootingStats(data);
       }
+      console.log('Data saved successfully to server');
       setFormData({
         date: new Date().toISOString().split('T')[0],
         lhCorM: 0, lhCorA: 0,
@@ -73,7 +75,7 @@ export default function PracticesShootingStatsPage() {
       setIsFormOpen(false);
       loadData();
     } catch (error) {
-      console.error('Error saving:', error);
+      console.error('❌ Error saving:', error);
       alert(`❌ Errore nel salvataggio: ${error.message}`);
     }
   };
