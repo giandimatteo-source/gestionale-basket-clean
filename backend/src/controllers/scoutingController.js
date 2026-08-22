@@ -69,7 +69,7 @@ export async function createScoutingReport(req, res) {
     let fileUrl = null;
     let fileType = null;
     if (req.file) {
-      fileUrl = `/uploads/scouting/${req.file.filename}`;
+      fileUrl = req.file.location;
       fileType = path.extname(req.file.originalname).toLowerCase().replace('.', '');
     }
 
@@ -116,12 +116,7 @@ export async function updateScoutingReport(req, res) {
     };
 
     if (req.file) {
-      const oldReport = await prisma.scoutingReport.findUnique({ where: { id } });
-      if (oldReport?.fileUrl) {
-        const oldPath = path.join(process.cwd(), 'uploads', oldReport.fileUrl.replace('/uploads/', ''));
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      updateData.fileUrl = `/uploads/scouting/${req.file.filename}`;
+      updateData.fileUrl = req.file.location;
       updateData.fileType = path.extname(req.file.originalname).toLowerCase().replace('.', '');
     }
 

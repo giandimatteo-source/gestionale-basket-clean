@@ -65,7 +65,7 @@ export async function createPlaybook(req, res) {
 
     if (req.file) {
       fileType = req.file.mimetype.startsWith('video') ? 'Video' : 'PDF';
-      fileUrl = `/uploads/playbooks/${req.file.filename}`;
+      fileUrl = req.file.location;
     }
 
     const playbook = await prisma.playbook.create({
@@ -95,14 +95,9 @@ export async function updatePlaybook(req, res) {
     let updateData = { name, description, tags: tags ? JSON.stringify(tags) : null, notes };
 
     if (req.file) {
-      const oldPlaybook = await prisma.playbook.findUnique({ where: { id } });
-      if (oldPlaybook?.fileUrl) {
-        const oldPath = path.join(process.cwd(), 'uploads', oldPlaybook.fileUrl.replace('/uploads/', ''));
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
       const fileType = req.file.mimetype.startsWith('video') ? 'Video' : 'PDF';
       updateData.fileType = fileType;
-      updateData.fileUrl = `/uploads/playbooks/${req.file.filename}`;
+      updateData.fileUrl = req.file.location;
     }
 
     const playbook = await prisma.playbook.update({
