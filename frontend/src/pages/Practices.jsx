@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Play, Trash2, Edit, Upload, MessageSquare, Scissors, Bookmark } from 'lucide-react';
 import { getTrainingSessions, createTrainingSession, updateTrainingSession, deleteTrainingSession } from '../services/practicesService.js';
+import { getAuthenticatedFileUrl } from '../utils/fileUrl.js';
 import '../styles/Practices.css';
 
 export default function Practices() {
@@ -450,7 +451,7 @@ export default function Practices() {
               <div>
                 <video
                   ref={el => window.videoElement = el}
-                  src={selectedSession.fileUrl}
+                  src={getAuthenticatedFileUrl(selectedSession.fileUrl)}
                   controls
                   style={{
                     width: '100%',

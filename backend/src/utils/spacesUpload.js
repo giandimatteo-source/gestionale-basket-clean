@@ -15,7 +15,7 @@ export const uploadToSpaces = async (file, folder) => {
       Key: fileName,
       Body: file.buffer,
       ContentType: file.mimetype,
-      ACL: 'public-read',
+      ACL: 'private',
     };
 
     await spacesClient.send(new PutObjectCommand(params));

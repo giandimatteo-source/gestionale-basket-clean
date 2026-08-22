@@ -28,6 +28,7 @@ import notificationsRoutes from './routes/notifications.js';
 
 // Middleware imports
 import { verifyToken } from './middleware/auth.js';
+import { getFileStream } from './controllers/fileController.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -89,6 +90,9 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
+
+// File streaming route (requires authentication)
+app.get('/api/files/:folder/:fileId', verifyToken, getFileStream);
 
 // Auth routes
 app.use('/api/auth', authRoutes);

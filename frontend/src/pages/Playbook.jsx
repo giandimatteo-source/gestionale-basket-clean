@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, X, Trash2, Edit, Download, Tag, Video, FileText } from 'lucide-react';
 import { getPlaybooks, getAllTags, createPlaybook, updatePlaybook, deletePlaybook } from '../services/playbookService.js';
+import { getAuthenticatedFileUrl } from '../utils/fileUrl.js';
 import '../styles/Playbook.css';
 
 export default function PlaybookPage() {
@@ -201,7 +202,7 @@ export default function PlaybookPage() {
               )}
 
               <div className="playbook-file">
-                <a href={`${playbook.fileUrl}`} target="_blank" rel="noopener noreferrer" className="file-link">
+                <a href={getAuthenticatedFileUrl(playbook.fileUrl)} target="_blank" rel="noopener noreferrer" className="file-link">
                   {playbook.fileType === 'Video' ? (
                     <>
                       <Video size={18} /> Watch Video

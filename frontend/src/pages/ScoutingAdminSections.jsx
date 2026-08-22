@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Download, FileText, Video } from 'lucide-react';
 import { getScoutingReports, deleteScoutingReport } from '../services/scoutingService.js';
+import { getAuthenticatedFileUrl } from '../utils/fileUrl.js';
 import '../styles/Scouting.css';
 
 export default function ScoutingAdminPage() {
@@ -228,7 +229,7 @@ export default function ScoutingAdminPage() {
                 </div>
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                   <a
-                    href={selectedReport.fileUrl}
+                    href={getAuthenticatedFileUrl(selectedReport.fileUrl)}
                     download
                     style={{
                       background: 'rgba(0, 217, 255, 0.2)',

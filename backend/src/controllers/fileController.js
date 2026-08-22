@@ -1,0 +1,32 @@
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import spacesClient from '../config/spaces.js';
+
+const BUCKET_NAME = 'geas-basket-storage';
+
+export const getFileStream = async (req, res) => {
+  try {
+    const { folder, fileId } = req.params;
+
+    if (!folder || !fileId) {
+      return res.status(400).json({ error: 'Missing folder or fileId' });
+    }
+
+    const fileName = `${folder}/${fileId}`;
+
+    const params = {
+      Bucket: BUCKET_NAME,
+      Key: fileName,
+    };
+
+    const command = new GetObjectCommand(params);
+    const response = await spacesClient.send(command);
+
+    res.setHeader('Content-Type', response.ContentType || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `inline; filename="${fileId}"`);
+
+    response.Body.pipe(res);
+  } catch (error) {
+    console.error('Error streaming file:', error);
+    res.status(404).json({ error: 'File not found' });
+  }
+};
