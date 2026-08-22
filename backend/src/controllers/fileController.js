@@ -1,4 +1,5 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
+import jwt from 'jsonwebtoken';
 import spacesClient from '../config/spaces.js';
 
 const BUCKET_NAME = 'geas-basket-storage';
@@ -11,6 +12,13 @@ export const getFileStream = async (req, res) => {
     if (!token) {
       return res.status(401).json({ error: 'Token not provided' });
     }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        console.error('Token verification error:', err);
+        return res.status(403).json({ error: 'Invalid or expired token' });
+      }
+    });
 
     if (!folder || !fileId) {
       return res.status(400).json({ error: 'Missing folder or fileId' });
