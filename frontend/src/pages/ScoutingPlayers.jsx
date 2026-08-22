@@ -63,7 +63,7 @@ export default function ScoutingPlayersPage() {
   return (
     <div className="page-container">
       <div className="scouting-players-header">
-        <h1>Match Day Scouting</h1>
+        <h1>Game Day Scouting</h1>
       </div>
 
       {upcomingEvents.length === 0 ? (
