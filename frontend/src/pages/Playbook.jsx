@@ -12,6 +12,8 @@ export default function PlaybookPage() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlaybook, setSelectedPlaybook] = useState(null);
+  const [pdfViewerOpen, setPdfViewerOpen] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -68,6 +70,29 @@ export default function PlaybookPage() {
       loadData();
     } catch (error) {
       console.error('Error:', error);
+    }
+  };
+
+  const handleViewPdf = async (fileUrl) => {
+    try {
+      const token = localStorage.getItem('token');
+      const urlParts = fileUrl.split('/');
+      const folder = urlParts[urlParts.length - 2];
+      const filename = urlParts[urlParts.length - 1];
+      const apiUrl = `/api/files/${folder}/${filename}`;
+
+      const response = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error('Failed to load PDF');
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setPdfSrc(blobUrl);
+      setPdfViewerOpen(true);
+    } catch (error) {
+      console.error('Error loading PDF:', error);
     }
   };
 
@@ -201,7 +226,16 @@ export default function PlaybookPage() {
                 <p className="playbook-description">{playbook.description}</p>
               )}
 
-              <div className="playbook-file">
+              <div className="playbook-file" style={{ display: 'flex', gap: '1rem' }}>
+                {playbook.fileType === 'PDF' && (
+                  <button
+                    onClick={() => handleViewPdf(playbook.fileUrl)}
+                    className="file-link"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                  >
+                    <FileText size={18} /> View PDF
+                  </button>
+                )}
                 <a href={getAuthenticatedFileUrl(playbook.fileUrl)} target="_blank" rel="noopener noreferrer" className="file-link">
                   {playbook.fileType === 'Video' ? (
                     <>
@@ -317,6 +351,56 @@ export default function PlaybookPage() {
                 <button type="button" className="btn-cancel" onClick={() => resetForm()}>✕ Cancel</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {pdfViewerOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+        }} onClick={() => setPdfViewerOpen(false)}>
+          <div style={{
+            background: '#1a1f3a',
+            borderRadius: '0.75rem',
+            width: '90%',
+            height: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '1rem',
+              borderBottom: '1px solid rgba(0, 217, 255, 0.2)',
+            }}>
+              <h3 style={{ margin: 0, color: '#00D9FF' }}>📄 PDF Viewer</h3>
+              <button onClick={() => setPdfViewerOpen(false)} style={{
+                background: 'none',
+                border: 'none',
+                color: '#cbd5e1',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+              }}>✕</button>
+            </div>
+            <iframe
+              src={pdfSrc}
+              style={{
+                flex: 1,
+                border: 'none',
+                width: '100%',
+              }}
+            />
           </div>
         </div>
       )}

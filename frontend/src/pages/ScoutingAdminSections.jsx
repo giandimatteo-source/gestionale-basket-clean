@@ -9,6 +9,8 @@ export default function ScoutingAdminPage() {
   const [selectedReportId, setSelectedReportId] = useState(null);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [pdfViewerOpen, setPdfViewerOpen] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState('');
 
   const userRole = JSON.parse(localStorage.getItem('user') || '{}').role;
   const canEdit = ['ADMIN', 'EDITOR'].includes(userRole);
@@ -71,6 +73,29 @@ export default function ScoutingAdminPage() {
       } catch (error) {
         console.error('Error deleting file:', error);
       }
+    }
+  };
+
+  const handleViewPdf = async (fileUrl) => {
+    try {
+      const token = localStorage.getItem('token');
+      const urlParts = fileUrl.split('/');
+      const folder = urlParts[urlParts.length - 2];
+      const filename = urlParts[urlParts.length - 1];
+      const apiUrl = `/api/files/${folder}/${filename}`;
+
+      const response = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error('Failed to load PDF');
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setPdfSrc(blobUrl);
+      setPdfViewerOpen(true);
+    } catch (error) {
+      console.error('Error loading PDF:', error);
     }
   };
 
@@ -228,6 +253,26 @@ export default function ScoutingAdminPage() {
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
+                  {selectedReport.fileType?.toLowerCase() === 'pdf' && (
+                    <button
+                      onClick={() => handleViewPdf(selectedReport.fileUrl)}
+                      style={{
+                        background: 'rgba(127, 255, 0, 0.2)',
+                        color: '#7FFF00',
+                        padding: '0.75rem 1rem',
+                        border: 'none',
+                        borderRadius: '0.5rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      <FileText size={16} />
+                      View PDF
+                    </button>
+                  )}
                   <a
                     href={getAuthenticatedFileUrl(selectedReport.fileUrl)}
                     download
@@ -270,6 +315,56 @@ export default function ScoutingAdminPage() {
                 No files uploaded yet
               </p>
             )}
+          </div>
+        </div>
+      )}
+
+      {pdfViewerOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+        }} onClick={() => setPdfViewerOpen(false)}>
+          <div style={{
+            background: '#1a1f3a',
+            borderRadius: '0.75rem',
+            width: '90%',
+            height: '90%',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '1rem',
+              borderBottom: '1px solid rgba(0, 217, 255, 0.2)',
+            }}>
+              <h3 style={{ margin: 0, color: '#00D9FF' }}>📄 PDF Viewer</h3>
+              <button onClick={() => setPdfViewerOpen(false)} style={{
+                background: 'none',
+                border: 'none',
+                color: '#cbd5e1',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+              }}>✕</button>
+            </div>
+            <iframe
+              src={pdfSrc}
+              style={{
+                flex: 1,
+                border: 'none',
+                width: '100%',
+              }}
+            />
           </div>
         </div>
       )}

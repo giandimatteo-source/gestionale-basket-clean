@@ -10,6 +10,7 @@ export default function Practices() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSession, setSelectedSession] = useState(null);
   const [videoPlayerOpen, setVideoPlayerOpen] = useState(false);
+  const [videoSrc, setVideoSrc] = useState('');
   const [feedback, setFeedback] = useState([]);
   const [feedbackInput, setFeedbackInput] = useState('');
   const [clips, setClips] = useState([]);
@@ -188,9 +189,30 @@ export default function Practices() {
     }
   };
 
+  const loadVideoWithAuth = async (fileUrl) => {
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = getAuthenticatedFileUrl(fileUrl);
+
+      const response = await fetch(apiUrl, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error('Failed to load video');
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      setVideoSrc(blobUrl);
+    } catch (error) {
+      console.error('Error loading video:', error);
+    }
+  };
+
   const handleVideoPlay = (session) => {
     setSelectedSession(session);
     setVideoPlayerOpen(true);
+    setVideoSrc('');
+    loadVideoWithAuth(session.fileUrl);
     loadFeedback(session.id);
     loadClips(session.id);
   };
@@ -451,7 +473,7 @@ export default function Practices() {
               <div>
                 <video
                   ref={el => window.videoElement = el}
-                  src={getAuthenticatedFileUrl(selectedSession.fileUrl)}
+                  src={videoSrc}
                   controls
                   style={{
                     width: '100%',
