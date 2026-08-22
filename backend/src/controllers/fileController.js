@@ -6,6 +6,11 @@ const BUCKET_NAME = 'geas-basket-storage';
 export const getFileStream = async (req, res) => {
   try {
     const { folder, fileId } = req.params;
+    let token = req.headers.authorization?.split(' ')[1] || req.query.token;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Token not provided' });
+    }
 
     if (!folder || !fileId) {
       return res.status(400).json({ error: 'Missing folder or fileId' });
